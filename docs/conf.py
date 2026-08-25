@@ -24,6 +24,7 @@ extensions = [
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "furo"
+html_favicon = "_static/radialpaths-mark.svg"
 html_title = f"RadialPaths {version}"
 autodoc_typehints = "description"
 numpydoc_show_class_members = False
