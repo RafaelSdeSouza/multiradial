@@ -31,7 +31,8 @@ measured on that geometry may change. The public API therefore separates
   Python-authored fixtures.
 - Browser notebooks require separate WebAssembly dependency and kernel
   maintenance. They are not part of the primary public reading path. The
-  current tutorial is static HTML with downloadable executed notebooks.
+  current tutorial is static HTML, with downloadable notebooks that include
+  their outputs.
 - The [Python Packaging User Guide](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/)
   motivates the `src/` layout so tests exercise the installed package instead
   of importing accidentally from the repository root.

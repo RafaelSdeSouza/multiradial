@@ -103,7 +103,7 @@ An interactive browser-based demonstration of RadialPaths is available at
 <https://rafaelsdesouza.com.br/radialpaths/>. Its geometry and profile
 calculations are implemented in browser-native JavaScript, require no Python
 runtime in the page, and upload no image or measurement. The static tutorial
-remains readable without JavaScript and links to an executed notebook.
+remains readable without JavaScript and links to the notebook.
 
 The package has not been published to PyPI or Zenodo.
 
@@ -132,7 +132,7 @@ browser calculations against it.
 - `docs/preprocessing.rst` — inspectable image-to-support preparation
 - `examples/01_quickstart.ipynb` — support, geometry, and a first profile
 - `examples/02_understanding_coordinates.ipynb` — coordinate interpretation with an internal boundary
-- `examples/03_your_own_image.ipynb` — executed image-to-profile tutorial
+- `examples/03_your_own_image.ipynb` — image-to-profile tutorial
 - `examples/04_registered_tracers.ipynb` — geometry reuse across scalar fields
 
 ## Citation

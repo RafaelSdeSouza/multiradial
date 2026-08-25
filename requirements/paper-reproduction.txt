@@ -1,0 +1,4 @@
+# Exact environment used to validate the frozen JADES preprocessing fixture.
+numpy==1.26.4
+scipy==1.10.0
+scikit-image==0.19.3

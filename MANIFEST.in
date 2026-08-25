@@ -1,4 +1,5 @@
 include README.md LICENSE CITATION.cff CHANGELOG.md CONTRIBUTING.md
+include requirements/paper-reproduction.txt
 recursive-include src *.py
 recursive-include tests/data *.npz *.json
 recursive-include tests *.py

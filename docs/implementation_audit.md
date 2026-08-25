@@ -106,3 +106,12 @@ Without it, the transient float64 coordinate fields differ from the stored
 products by only about `3e-8`, but a small number of `rho_D` values cross exact
 bin edges. Preserving the serialization behavior prevents that downstream
 change.
+
+The frozen preprocessing fixture also stores the candidate peak values used
+during the paper audit. Current SciPy releases reproduce their ordering,
+positions, masks, selected centres, geometry, and profiles, but can differ in
+the stored peak values by a few units in the last floating-point place. The
+unchanged exact-value test is therefore run in the recorded validation
+environment in `requirements/paper-reproduction.txt`. This lock applies only
+to paper reproduction; the public API retains its broader declared dependency
+ranges.
