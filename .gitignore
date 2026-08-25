@@ -2,10 +2,11 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+.cache/
+.jupyterlite.doit.db
 .coverage
 build/
 dist/
 .venv/
 docs/_build/
 site/
-
