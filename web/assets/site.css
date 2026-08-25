@@ -194,7 +194,7 @@ code, pre { font-family: "SFMono-Regular", Consolas, ui-monospace, monospace; }
 .notebook-card > div { padding: 1.25rem 1.35rem; }
 .notebook-card h2 { font-size: 1.3rem; }
 .notebook-card h2 a { color: var(--ink); text-decoration: none; }
-.notebook-card h2 a::after { content: ""; inset: 0; position: absolute; }
+.notebook-card h2 a::after { content: ""; cursor: pointer; inset: 0; position: absolute; z-index: 1; }
 .notebook-card h2 a:focus-visible::after { outline: 3px solid var(--blue); outline-offset: -3px; }
 .notebook-card p { color: var(--muted); margin: 0.55rem 0 0; }
 .notebook-card footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0.9rem; margin: 0; padding: 0.8rem 1.35rem 1rem; }
