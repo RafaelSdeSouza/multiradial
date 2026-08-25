@@ -21,8 +21,10 @@ def _run(command: list[str]) -> None:
 def _repository_identity() -> tuple[str, str]:
     slug = os.environ.get("GITHUB_REPOSITORY", "RafaelSdeSouza/multiradial")
     repository_url = f"https://github.com/{slug}"
-    owner, name = slug.split("/", 1)
-    pages_url = f"https://{owner}.github.io/{name}/"
+    pages_url = os.environ.get(
+        "MULTIRADIAL_PAGES_URL",
+        "https://rafaelsdesouza.com.br/multiradial/",
+    )
     return repository_url, pages_url
 
 

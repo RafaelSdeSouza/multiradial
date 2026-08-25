@@ -35,7 +35,8 @@ class CentreProfile:
 class RadialProfile:
     """Centre-conditioned binned profiles for a registered scalar field.
 
-    All two-dimensional result arrays have shape ``(n_centres, n_bins)``.
+    All two-dimensional result arrays have shape ``(N, n_bins)``, where ``N``
+    is the number of supplied centres.
     Omitted bins contain ``NaN`` in the summary arrays while retaining their
     actual pixel count in :attr:`count`.
     """
@@ -186,13 +187,20 @@ def radial_profile(
     p84 = np.full(shape, np.nan)
     counts = np.zeros(shape, dtype=np.int64)
     rho = geometry.coordinate(coordinate)
+    # The validated observational coordinates are serialized as float32.
+    # Compare bin edges in that same dtype explicitly: NumPy 2 changed scalar
+    # promotion for float32-array/float64-scalar comparisons, which otherwise
+    # moves pixels lying exactly on an edge relative to the frozen estimator.
+    comparison_edges = edges.astype(rho.dtype, copy=False)
     coordinate_name = "rho_D" if coordinate.lower() == "rho_d" else "rho_X"
 
     finite = np.isfinite(rho) & np.isfinite(values) & ~excluded
     for centre in range(geometry.n_centres):
         selected = geometry.support & (geometry.labels == centre) & finite
         for index in range(len(radius)):
-            use = selected & (rho >= edges[index]) & (rho < edges[index + 1])
+            use = selected & (rho >= comparison_edges[index]) & (
+                rho < comparison_edges[index + 1]
+            )
             if index == len(radius) - 1:
                 use |= selected & (rho == 1)
             sample = values[use]
@@ -219,4 +227,3 @@ def radial_profile(
 
 
 __all__ = ["CentreProfile", "RadialProfile", "radial_profile"]
-

@@ -30,9 +30,10 @@ class RadialGeometry:
     ----------
     support : ndarray of bool, shape (ny, nx)
         Connected accepted support :math:`\Omega`.
-    centres : ndarray of int, shape (n_centres, 2)
+    centres : ndarray of int, shape (N, 2)
         Rounded centre positions in NumPy ``(row, column)`` order.
-    distances : ndarray, shape (n_centres, ny, nx)
+        Here, ``N`` is the number of supplied centres.
+    distances : ndarray, shape (N, ny, nx)
         Per-centre support-constrained graph distances :math:`d_k(x)`.
     labels : ndarray of int, shape (ny, nx)
         Centre assignment :math:`a(x)`. Outside-support pixels are ``-1``.
@@ -45,7 +46,7 @@ class RadialGeometry:
         Support-constrained distance :math:`b(x)` to the boundary.
     rho_D, rho_X : ndarray, shape (ny, nx)
         Relative depth and normalized progression coordinates.
-    extents : ndarray, shape (n_centres,)
+    extents : ndarray, shape (N,)
         :math:`L_k`, the maximum assigned-centre distance in each region.
     """
 
@@ -164,7 +165,7 @@ def build_geometry(
     support : array-like of bool, 2D
         Accepted support :math:`\Omega`. ``True`` pixels are traversable and
         ``False`` pixels—including internal holes—are excluded.
-    centres : array-like, shape (n_centres, 2)
+    centres : array-like, shape (N, 2)
         Supplied centre coordinates. Values are rounded with ``numpy.rint`` to
         match the frozen implementation.
     centre_order : {``"yx"``, ``"xy"``}, optional

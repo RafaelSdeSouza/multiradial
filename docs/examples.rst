@@ -5,7 +5,7 @@ Browser demonstration
 ---------------------
 
 An interactive browser-based demonstration is available at
-https://RafaelSdeSouza.github.io/multiradial/. It runs locally in the browser
+https://rafaelsdesouza.com.br/multiradial/. It runs locally in the browser
 with JupyterLite/Pyodide and requires no software installation. The stable
 landing page links to the explorer and tutorial without exposing notebook
 filenames in manuscript-facing URLs.
