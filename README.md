@@ -82,14 +82,14 @@ The explorer switches among compact, folded, perforated, and branched supports,
 compares relative boundary depth with normalized progression, and demonstrates
 that the same immutable geometry can be applied to different registered tracers.
 
-## Documentation and provenance
+## Documentation
 
-- `docs/getting_started.rst` — first analysis
-- `docs/concepts.rst` — mathematical definitions and implementation semantics
-- `docs/implementation_audit.md` — frozen-source provenance
-- `docs/design_notes.md` — documentation and interaction design rationale
-- `docs/name_release_gate.md` — provisional-name availability record
-- `examples/tutorial.ipynb` — narrative notebook
+- `docs/getting_started.rst` — installation and a first radial-profile measurement
+- `docs/concepts.rst` — mathematical definitions and coordinate interpretation
+- `docs/implementation_audit.md` — relationship between the public API and the paper-reproduction fixtures
+- `docs/design_notes.md` — geometry reuse and interactive-explorer design
+- `docs/name_release_gate.md` — checks required before adopting the provisional package name
+- `examples/tutorial.ipynb` — executable browser tutorial
 
 ## Citation
 
