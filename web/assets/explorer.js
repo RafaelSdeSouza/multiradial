@@ -11,7 +11,7 @@
     [1.00, [254, 232, 56]],
   ];
   const state = {
-    family: "elongated",
+    family: "circle",
     centreCount: 2,
     resolution: 80,
     tracer: "brightness",
