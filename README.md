@@ -64,7 +64,7 @@ fast-marching solver.
 ## Browser demonstration
 
 An interactive browser-based demonstration of MultiRadial is available at
-<https://RafaelSdeSouza.github.io/multiradial/>. The demonstration runs locally
+<https://rafaelsdesouza.com.br/multiradial/>. The demonstration runs locally
 in the browser using JupyterLite/Pyodide and requires no software installation.
 The stable landing page links to both the direct explorer and the tutorial;
 the GitHub repository remains the source-code record, while a future Zenodo
