@@ -6,7 +6,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/pages.yml"
-      - "docs/_static/tutorials/**"
+      - "docs/**"
       - "examples/**"
       - "src/**"
       - "tests/data/browser_geometry_fixture.json"
