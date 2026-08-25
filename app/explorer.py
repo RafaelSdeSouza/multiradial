@@ -200,14 +200,20 @@ CENTRE_CANDIDATES = {
     "folded": np.array([[24, 25], [74, 31], [49, 78], [24, 65]], dtype=int),
     "perforated": np.array([[50, 25], [50, 77], [22, 50], [78, 50]], dtype=int),
     "branched": np.array([[80, 50], [21, 23], [20, 79], [50, 50]], dtype=int),
-    "capybara": np.array([[54, 39], [47, 70], [53, 86], [72, 31]], dtype=int),
-    "trex": np.array([[50, 50], [32, 79], [40, 23], [70, 57]], dtype=int),
+    "capybara": np.array([[47, 59], [42, 24], [50, 77], [64, 54]], dtype=int),
+    "trex": np.array([[50, 52], [29, 84], [56, 22], [69, 61]], dtype=int),
 }
 
 
 def _configured_centres(scene, configuration):
     count = int(configuration)
-    return CENTRE_CANDIDATES[scene.name][:count]
+    candidates = CENTRE_CANDIDATES[scene.name][:count]
+    rows, columns = np.nonzero(scene.support)
+    selected = []
+    for row, column in candidates:
+        index = np.argmin((rows - row) ** 2 + (columns - column) ** 2)
+        selected.append((rows[index], columns[index]))
+    return np.asarray(selected, dtype=int)
 
 
 @lru_cache(maxsize=None)

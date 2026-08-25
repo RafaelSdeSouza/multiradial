@@ -2,6 +2,7 @@
   "use strict";
 
   const G = window.RadialPathsGeometry;
+  const silhouettes = window.RadialPathsSilhouettes;
   const colours = ["#0072B2", "#D55E00", "#009E73", "#7B61A8"];
   const cividis = [
     [0.00, [0, 32, 76]],
@@ -52,6 +53,51 @@
     return distance;
   }
 
+  function pointInPolygon(x, y, points) {
+    let inside = false;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i, i += 1) {
+      const [xi, yi] = points[i];
+      const [xj, yj] = points[j];
+      const crosses = (yi > y) !== (yj > y)
+        && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+      if (crosses) inside = !inside;
+    }
+    return inside;
+  }
+
+  function retainLargestComponent(support, width, height) {
+    const visited = new Uint8Array(support.length);
+    let largest = [];
+    for (let start = 0; start < support.length; start += 1) {
+      if (!support[start] || visited[start]) continue;
+      const component = [];
+      const queue = [start];
+      visited[start] = 1;
+      for (let cursor = 0; cursor < queue.length; cursor += 1) {
+        const idx = queue[cursor];
+        component.push(idx);
+        const row = Math.floor(idx / width);
+        const column = idx - row * width;
+        for (let dr = -1; dr <= 1; dr += 1) {
+          for (let dc = -1; dc <= 1; dc += 1) {
+            if (dr === 0 && dc === 0) continue;
+            const rr = row + dr;
+            const cc = column + dc;
+            if (rr < 0 || rr >= height || cc < 0 || cc >= width) continue;
+            const neighbour = rr * width + cc;
+            if (support[neighbour] && !visited[neighbour]) {
+              visited[neighbour] = 1;
+              queue.push(neighbour);
+            }
+          }
+        }
+      }
+      if (component.length > largest.length) largest = component;
+    }
+    support.fill(0);
+    for (const idx of largest) support[idx] = 1;
+  }
+
   function makeScene(family, resolution) {
     const height = resolution;
     const width = Math.round(resolution * 1.45);
@@ -64,9 +110,10 @@
       branched: [[0.75, 0.50], [0.23, 0.26], [0.23, 0.74], [0.50, 0.50]],
       perforated: [[0.50, 0.22], [0.50, 0.78], [0.26, 0.50], [0.74, 0.50]],
       merger: [[0.48, 0.29], [0.53, 0.61], [0.63, 0.82], [0.36, 0.47]],
-      capybara: [[0.54, 0.39], [0.47, 0.70], [0.53, 0.86], [0.72, 0.31]],
-      trex: [[0.50, 0.50], [0.32, 0.79], [0.40, 0.23], [0.70, 0.57]],
+      capybara: [[0.47, 0.58], [0.40, 0.27], [0.50, 0.73], [0.67, 0.54]],
+      trex: [[0.50, 0.52], [0.23, 0.80], [0.57, 0.25], [0.74, 0.59]],
     }[family];
+    const silhouette = silhouettes[family];
     for (let row = 0; row < height; row += 1) {
       for (let column = 0; column < width; column += 1) {
         const x = column / (width - 1);
@@ -96,30 +143,14 @@
           inside = ((x - 0.31) / 0.22) ** 2 + ((y - 0.48) / 0.25) ** 2 <= 1;
           inside ||= ((x - 0.62) / 0.24) ** 2 + ((y - 0.53) / 0.27) ** 2 <= 1;
           inside ||= polylineDistance(x, y, [[0.31, 0.48], [0.62, 0.53], [0.87, 0.67]]) <= 0.07;
-        } else if (family === "capybara") {
-          const body = ((x - 0.43) / 0.30) ** 2 + ((y - 0.54) / 0.22) ** 2 <= 1;
-          const head = ((x - 0.70) / 0.18) ** 2 + ((y - 0.46) / 0.17) ** 2 <= 1;
-          const muzzle = ((x - 0.86) / 0.105) ** 2 + ((y - 0.51) / 0.095) ** 2 <= 1;
-          const ear = ((x - 0.67) / 0.045) ** 2 + ((y - 0.28) / 0.065) ** 2 <= 1;
-          const rearLeg = polylineDistance(x, y, [[0.31, 0.68], [0.30, 0.84], [0.24, 0.84]]) <= 0.045;
-          const frontLeg = polylineDistance(x, y, [[0.62, 0.67], [0.64, 0.84], [0.71, 0.84]]) <= 0.045;
-          inside = body || head || muzzle || ear || rearLeg || frontLeg;
-        } else if (family === "trex") {
-          const body = ((x - 0.50) / 0.23) ** 2 + ((y - 0.50) / 0.25) ** 2 <= 1;
-          const neck = polylineDistance(x, y, [[0.59, 0.46], [0.69, 0.35]]) <= 0.10;
-          const head = ((x - 0.72) / 0.15) ** 2 + ((y - 0.31) / 0.13) ** 2 <= 1;
-          const snout = ((x - 0.84) / 0.11) ** 2 + ((y - 0.33) / 0.075) ** 2 <= 1;
-          const tailBase = polylineDistance(x, y, [[0.36, 0.47], [0.19, 0.39]]) <= 0.070;
-          const tailTip = polylineDistance(x, y, [[0.20, 0.39], [0.06, 0.28]]) <= 0.045;
-          const rearLeg = polylineDistance(x, y, [[0.43, 0.67], [0.40, 0.84], [0.31, 0.84]]) <= 0.048;
-          const frontLeg = polylineDistance(x, y, [[0.57, 0.68], [0.62, 0.84], [0.71, 0.84]]) <= 0.048;
-          const arm = polylineDistance(x, y, [[0.63, 0.43], [0.74, 0.51], [0.79, 0.48]]) <= 0.022;
-          inside = body || neck || head || snout || tailBase || tailTip || rearLeg || frontLeg || arm;
+        } else if (silhouette) {
+          inside = pointInPolygon(x, y, silhouette);
         }
         if (row === 0 || column === 0 || row === height - 1 || column === width - 1) inside = false;
         support[row * width + column] = inside ? 1 : 0;
       }
     }
+    if (silhouette) retainLargestComponent(support, width, height);
     const centres = proposed.slice(0, state.centreCount).map(([y, x]) => nearestSupport(
       support, width, height, Math.round(y * (height - 1)), Math.round(x * (width - 1)),
     ));
