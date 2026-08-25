@@ -26,6 +26,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "furo"
 html_favicon = "_static/radialpaths-mark.svg"
 html_title = f"RadialPaths {version}"
+html_baseurl = "https://rafaelsdesouza.com.br/radialpaths/docs/"
 autodoc_typehints = "description"
 numpydoc_show_class_members = False
 intersphinx_mapping = {

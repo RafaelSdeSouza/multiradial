@@ -62,24 +62,31 @@ image, then construct both radial coordinates and measure a registered tracer.
 
 ## Resources
 
-- [Documentation](https://rafaelsdesouza.com.br/multiradial/docs/)
-- [Source](https://github.com/RafaelSdeSouza/multiradial)
+- [Open in Colab](https://colab.research.google.com/github/RafaelSdeSouza/radialpaths/blob/v0.1.0/examples/03_your_own_image.ipynb)
+- [Documentation](https://rafaelsdesouza.com.br/radialpaths/docs/)
+- [Source](https://github.com/RafaelSdeSouza/radialpaths)
 - Paper/preprint: bibliographic link pending
-- [Citation metadata](https://github.com/RafaelSdeSouza/multiradial/blob/main/CITATION.cff)
+- [Citation metadata](https://github.com/RafaelSdeSouza/radialpaths/blob/v0.1.0/CITATION.cff)
 
-The first release will use a pinned Git tag for Colab installation. Until that
-tag exists, execute this notebook from a local checkout with the package source
-available in `src/`.
+In Colab, the setup cell installs the immutable RadialPaths 0.1.0 tag. In a
+local checkout, it imports the source tree directly.
 """
         ),
         code(
             """
 from pathlib import Path
+import subprocess
 import sys
 
-source = Path("src") if Path("src/radialpaths").exists() else Path("../src")
-if str(source.resolve()) not in sys.path:
-    sys.path.insert(0, str(source.resolve()))
+if "google.colab" in sys.modules:
+    subprocess.check_call([
+        sys.executable, "-m", "pip", "install", "-q",
+        "radialpaths[plot] @ git+https://github.com/RafaelSdeSouza/radialpaths.git@v0.1.0",
+    ])
+else:
+    source = Path("src") if Path("src/radialpaths").exists() else Path("../src")
+    if str(source.resolve()) not in sys.path:
+        sys.path.insert(0, str(source.resolve()))
 
 import matplotlib.pyplot as plt
 import numpy as np

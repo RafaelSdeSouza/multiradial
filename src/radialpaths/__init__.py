@@ -1,4 +1,4 @@
-"""Centre-conditioned radial analysis on irregular supports.
+"""Centre-conditioned radial profiles for irregular structures.
 
 The top-level API deliberately separates construction of radial geometry from
 measurement of registered scalar fields.
@@ -16,4 +16,3 @@ __all__ = [
     "build_geometry",
     "radial_profile",
 ]
-

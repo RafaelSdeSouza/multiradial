@@ -42,8 +42,8 @@ conceptual user guide, tutorial notebooks, and a distinct API reference. Its
 [tutorial collection](https://docs.gammapy.org/dev/tutorials/index.html)
 offers both rendered notebooks and downloadable notebook/source bundles. We
 adopt the visible separation between learning material and reference material.
-The current gallery provides static HTML and notebook downloads; Colab links
-remain gated on an immutable release tag.
+The gallery provides static HTML, notebook downloads, and Colab links pinned
+to the immutable `v0.1.0` source.
 
 ## Decisions for this project
 

@@ -1,6 +1,6 @@
 # RadialPaths
 
-**Centre-conditioned radial analysis for irregular and multi-centred structures**
+**Centre-conditioned radial profiles for irregular structures**
 
 Developed by [Rafael S. de Souza](https://rafaelsdesouza.com.br/).
 
@@ -11,17 +11,26 @@ pixel-aligned tracer—without redefining radial position.
 
 ![Relative centre-boundary depth and normalized progression on one connected support](docs/_static/tutorials/your_own_image/07_final_geometry.png)
 
-> RadialPaths is an alpha research-software package. The name is provisional
-> pending the release gate in `docs/name_release_gate.md`; it has not been
-> published to PyPI.
+> RadialPaths 0.1.0 is the first release candidate. PyPI and Zenodo
+> publication remain subject to final approval.
+
+[Open the explorer](https://rafaelsdesouza.com.br/radialpaths/explorer/) ·
+[Read the tutorial](https://rafaelsdesouza.com.br/radialpaths/tutorial/) ·
+[Open the quick start in Colab](https://colab.research.google.com/github/RafaelSdeSouza/radialpaths/blob/v0.1.0/examples/01_quickstart.ipynb)
 
 ## Installation
 
-From this repository:
+Install the tagged release candidate from its immutable source:
 
 ```bash
 python -m pip install --upgrade pip
-python -m pip install .
+python -m pip install "radialpaths @ git+https://github.com/RafaelSdeSouza/radialpaths.git@v0.1.0"
+```
+
+After PyPI publication, the installation command is:
+
+```bash
+python -m pip install radialpaths
 ```
 
 For plotting and the optional local Panel explorer:
@@ -91,7 +100,7 @@ to call `build_geometry(my_mask, my_centres)` directly.
 ## Browser demonstration
 
 An interactive browser-based demonstration of RadialPaths is available at
-<https://rafaelsdesouza.com.br/multiradial/>. Its geometry and profile
+<https://rafaelsdesouza.com.br/radialpaths/>. Its geometry and profile
 calculations are implemented in browser-native JavaScript, require no Python
 runtime in the page, and upload no image or measurement. The static tutorial
 remains readable without JavaScript and links to an executed notebook.
@@ -119,7 +128,7 @@ browser calculations against it.
 - `docs/concepts.rst` — mathematical definitions and coordinate interpretation
 - `docs/implementation_audit.md` — relationship between the public API and the paper-reproduction fixtures
 - `docs/design_notes.md` — geometry reuse and interactive-explorer design
-- `docs/name_release_gate.md` — checks required before adopting the provisional package name
+- `docs/name_release_gate.md` — final name audit and migration record
 - `docs/preprocessing.rst` — inspectable image-to-support preparation
 - `examples/01_quickstart.ipynb` — support, geometry, and a first profile
 - `examples/02_understanding_coordinates.ipynb` — coordinate interpretation with an internal boundary

@@ -1,13 +1,15 @@
 Getting started
 ===============
 
-Install from the repository
----------------------------
+Install version 0.1.0
+---------------------
 
 .. code-block:: bash
 
    python -m pip install --upgrade pip
-   python -m pip install .
+   python -m pip install "radialpaths @ git+https://github.com/RafaelSdeSouza/radialpaths.git@v0.1.0"
+
+After PyPI publication, use ``python -m pip install radialpaths``.
 
 The optional plotting and explorer dependencies are installed with:
 

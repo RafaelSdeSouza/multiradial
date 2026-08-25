@@ -1,8 +1,7 @@
 RadialPaths
 ===========
 
-**Centre-conditioned radial analysis for irregular and multi-centred
-structures.**
+**Centre-conditioned radial profiles for irregular structures.**
 
 RadialPaths defines radial position from a connected support and supplied
 centres, then applies that geometry to any registered scalar field. It is aimed
@@ -19,8 +18,8 @@ clump complexes, resolved populations, and spatially resolved kinematics.
 
 .. warning::
 
-   This is a provisional alpha package. It has not been published to PyPI and
-   the release-name checks remain open.
+   Version 0.1.0 is the first release candidate. PyPI and Zenodo publication
+   remain subject to final approval.
 
 .. toctree::
    :maxdepth: 2

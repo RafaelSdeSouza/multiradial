@@ -5,7 +5,7 @@ Browser demonstration
 ---------------------
 
 An interactive browser-based demonstration is available at
-https://rafaelsdesouza.com.br/multiradial/. Its browser-native JavaScript
+https://rafaelsdesouza.com.br/radialpaths/. Its browser-native JavaScript
 implementation provides seven synthetic supports, one to four supplied
 centres, draggable centre markers, pixel-level path inspection, and animated
 profile construction. The static tutorial remains readable without
@@ -20,9 +20,8 @@ The maintained notebook sequence is:
 - ``examples/04_registered_tracers.ipynb`` reuses one geometry for several
   scalar fields.
 
-All four notebooks are stored with executed outputs. A Colab link will be
-added after an immutable package tag exists, so its installation cell can pin
-an exact source revision.
+All four notebooks are stored with executed outputs and link to the immutable
+``v0.1.0`` source in Colab.
 
 For a standalone local application:
 

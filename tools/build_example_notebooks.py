@@ -12,6 +12,9 @@ from nbclient import NotebookClient
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = ROOT / "examples"
+REPOSITORY = "https://github.com/RafaelSdeSouza/radialpaths"
+DOCUMENTATION = "https://rafaelsdesouza.com.br/radialpaths/docs/"
+RELEASE_TAG = "v0.1.0"
 
 
 def markdown(value: str):
@@ -25,10 +28,18 @@ def code(value: str):
 SETUP = code(
     """
     from pathlib import Path
+    import subprocess
     import sys
-    source = Path("src") if Path("src/radialpaths").exists() else Path("../src")
-    if str(source.resolve()) not in sys.path:
-        sys.path.insert(0, str(source.resolve()))
+
+    if "google.colab" in sys.modules:
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install", "-q",
+            "radialpaths[plot] @ git+https://github.com/RafaelSdeSouza/radialpaths.git@v0.1.0",
+        ])
+    else:
+        source = Path("src") if Path("src/radialpaths").exists() else Path("../src")
+        if str(source.resolve()) not in sys.path:
+            sys.path.insert(0, str(source.resolve()))
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -39,7 +50,7 @@ SETUP = code(
 )
 
 
-def header(title: str, summary: str, goals: str, keywords: str):
+def header(title: str, summary: str, goals: str, keywords: str, notebook_name: str):
     goal_lines = "\n".join(
         f"- {item.strip().rstrip('.')}" for item in goals.split(";") if item.strip()
     )
@@ -65,13 +76,14 @@ def header(title: str, summary: str, goals: str, keywords: str):
 
         ## Resources
 
-        - [Documentation](https://rafaelsdesouza.com.br/multiradial/docs/)
-        - [Source](https://github.com/RafaelSdeSouza/multiradial)
+        - [Open in Colab](https://colab.research.google.com/github/RafaelSdeSouza/radialpaths/blob/v0.1.0/examples/{notebook_name})
+        - [Documentation]({DOCUMENTATION})
+        - [Source]({REPOSITORY})
         - Paper/preprint: bibliographic link pending
-        - [Citation metadata](https://github.com/RafaelSdeSouza/multiradial/blob/main/CITATION.cff)
+        - [Citation metadata]({REPOSITORY}/blob/{RELEASE_TAG}/CITATION.cff)
 
-        Execute this notebook from a local checkout. A Colab installation link
-        will be added only after the first immutable release tag exists.
+        In Colab, the setup cell installs the immutable RadialPaths 0.1.0 tag.
+        In a local checkout, it imports the source tree directly.
         """
     )
 
@@ -95,6 +107,7 @@ def quickstart():
                 "Construct two coordinates on a connected irregular mask and measure a scalar field.",
                 "provide support and centres; inspect centre assignment and both coordinates; compute a centre-conditioned profile.",
                 "support mask, supplied centres, radial profile",
+                "01_quickstart.ipynb",
             ),
             SETUP,
             markdown(
@@ -166,6 +179,7 @@ def coordinates():
                 "Use controlled supports to determine when relative boundary depth and normalized progression coincide and when they separate.",
                 "recover the circular reference case; compare compact, elongated, folded, and perforated supports; narrow a tail while keeping its centreline fixed; identify how an internal boundary enters rho_D.",
                 "circular reference, elongated tail, folded support, internal boundary, coordinate interpretation",
+                "02_understanding_coordinates.ipynb",
             ),
             SETUP,
             markdown(
@@ -287,6 +301,7 @@ def registered_tracers():
                 "Measure brightness, colour, and velocity-like fields on one immutable geometry.",
                 "separate geometry from measurement; compare profiles without redefining radial position.",
                 "registered tracers, geometry reuse, radial profiles",
+                "04_registered_tracers.ipynb",
             ),
             SETUP,
             code(

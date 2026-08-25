@@ -20,14 +20,11 @@ NOTEBOOKS = (
 
 
 def _repository_identity() -> tuple[str, str]:
-    slug = os.environ.get("GITHUB_REPOSITORY", "RafaelSdeSouza/multiradial")
+    slug = os.environ.get("GITHUB_REPOSITORY", "RafaelSdeSouza/radialpaths")
     repository_url = f"https://github.com/{slug}"
     pages_url = os.environ.get(
         "RADIALPATHS_PAGES_URL",
-        os.environ.get(
-            "MULTIRADIAL_PAGES_URL",
-            "https://rafaelsdesouza.com.br/multiradial/",
-        ),
+        "https://rafaelsdesouza.com.br/radialpaths/",
     )
     return repository_url, pages_url
 
