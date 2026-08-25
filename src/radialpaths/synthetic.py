@@ -56,7 +56,8 @@ def make_scene(name: str = "folded", size: int = 101) -> SyntheticScene:
 
     Parameters
     ----------
-    name : {``"compact"``, ``"folded"``, ``"perforated"``, ``"branched"``}
+    name : {``"compact"``, ``"folded"``, ``"perforated"``, ``"branched"``,
+        ``"capybara"``, ``"trex"``}
         Geometric example.
     size : int, optional
         Square array size. Values below 61 are rejected to keep structures
@@ -102,8 +103,88 @@ def make_scene(name: str = "folded", size: int = 101) -> SyntheticScene:
         centres = np.rint(
             [[80 * scale, 50 * scale], [21 * scale, 23 * scale], [20 * scale, 79 * scale]]
         ).astype(int)
+    elif key == "capybara":
+        body = ((xx - 43 * scale) / (30 * scale)) ** 2 + (
+            (yy - 54 * scale) / (22 * scale)
+        ) ** 2 <= 1
+        head = ((xx - 70 * scale) / (18 * scale)) ** 2 + (
+            (yy - 46 * scale) / (17 * scale)
+        ) ** 2 <= 1
+        muzzle = ((xx - 86 * scale) / (10.5 * scale)) ** 2 + (
+            (yy - 51 * scale) / (9.5 * scale)
+        ) ** 2 <= 1
+        ear = ((xx - 67 * scale) / (4.5 * scale)) ** 2 + (
+            (yy - 28 * scale) / (6.5 * scale)
+        ) ** 2 <= 1
+        rear_leg = _distance_to_segments(
+            yy,
+            xx,
+            [
+                (68 * scale, 31 * scale),
+                (84 * scale, 30 * scale),
+                (84 * scale, 24 * scale),
+            ],
+        ) <= 4.5 * scale
+        front_leg = _distance_to_segments(
+            yy,
+            xx,
+            [
+                (67 * scale, 62 * scale),
+                (84 * scale, 64 * scale),
+                (84 * scale, 71 * scale),
+            ],
+        ) <= 4.5 * scale
+        support = body | head | muzzle | ear | rear_leg | front_leg
+        centres = np.rint([[54 * scale, 39 * scale], [47 * scale, 70 * scale]]).astype(int)
+    elif key == "trex":
+        body = ((xx - 50 * scale) / (23 * scale)) ** 2 + (
+            (yy - 50 * scale) / (25 * scale)
+        ) ** 2 <= 1
+        neck = _distance_to_segments(
+            yy, xx, [(46 * scale, 59 * scale), (35 * scale, 69 * scale)]
+        ) <= 10 * scale
+        head = ((xx - 72 * scale) / (15 * scale)) ** 2 + (
+            (yy - 31 * scale) / (13 * scale)
+        ) ** 2 <= 1
+        snout = ((xx - 84 * scale) / (11 * scale)) ** 2 + (
+            (yy - 33 * scale) / (7.5 * scale)
+        ) ** 2 <= 1
+        tail_base = _distance_to_segments(
+            yy, xx, [(47 * scale, 36 * scale), (39 * scale, 19 * scale)]
+        ) <= 7 * scale
+        tail_tip = _distance_to_segments(
+            yy, xx, [(39 * scale, 20 * scale), (28 * scale, 6 * scale)]
+        ) <= 4.5 * scale
+        rear_leg = _distance_to_segments(
+            yy,
+            xx,
+            [
+                (67 * scale, 43 * scale),
+                (84 * scale, 40 * scale),
+                (84 * scale, 31 * scale),
+            ],
+        ) <= 4.8 * scale
+        front_leg = _distance_to_segments(
+            yy,
+            xx,
+            [
+                (68 * scale, 57 * scale),
+                (84 * scale, 62 * scale),
+                (84 * scale, 71 * scale),
+            ],
+        ) <= 4.8 * scale
+        arm = _distance_to_segments(
+            yy, xx, [(43 * scale, 63 * scale), (51 * scale, 74 * scale), (48 * scale, 79 * scale)]
+        ) <= 2.2 * scale
+        support = (
+            body | neck | head | snout | tail_base | tail_tip | rear_leg | front_leg | arm
+        )
+        centres = np.rint([[50 * scale, 50 * scale], [32 * scale, 79 * scale]]).astype(int)
     else:
-        raise ValueError("name must be 'compact', 'folded', 'perforated', or 'branched'")
+        raise ValueError(
+            "name must be 'compact', 'folded', 'perforated', 'branched', "
+            "'capybara', or 'trex'"
+        )
 
     support[[0, -1], :] = False
     support[:, [0, -1]] = False
@@ -112,4 +193,3 @@ def make_scene(name: str = "folded", size: int = 101) -> SyntheticScene:
 
 
 __all__ = ["SyntheticScene", "make_scene"]
-

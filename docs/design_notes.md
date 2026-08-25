@@ -48,7 +48,8 @@ measured on that geometry may change. The public API therefore separates
 4. **Optional surface area.** Matplotlib, Astropy, Pillow, and Panel are extras; they do
    not load during `import radialpaths`.
 5. **Meaningful examples.** Circular, compact, elongated, folded, branched,
-   perforated, and merger-like supports each isolate a geometric behaviour.
+   perforated, merger-like, capybara, and T-Rex supports each isolate a
+   geometric behaviour.
 6. **Restrained visuals.** Cividis fields, crisp neutral boundaries, white
    contours, and direct centre markers match the manuscript's explanatory
    grammar without reproducing its branding.

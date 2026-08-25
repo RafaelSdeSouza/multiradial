@@ -64,6 +64,8 @@
       branched: [[0.75, 0.50], [0.23, 0.26], [0.23, 0.74], [0.50, 0.50]],
       perforated: [[0.50, 0.22], [0.50, 0.78], [0.26, 0.50], [0.74, 0.50]],
       merger: [[0.48, 0.29], [0.53, 0.61], [0.63, 0.82], [0.36, 0.47]],
+      capybara: [[0.54, 0.39], [0.47, 0.70], [0.53, 0.86], [0.72, 0.31]],
+      trex: [[0.50, 0.50], [0.32, 0.79], [0.40, 0.23], [0.70, 0.57]],
     }[family];
     for (let row = 0; row < height; row += 1) {
       for (let column = 0; column < width; column += 1) {
@@ -94,6 +96,25 @@
           inside = ((x - 0.31) / 0.22) ** 2 + ((y - 0.48) / 0.25) ** 2 <= 1;
           inside ||= ((x - 0.62) / 0.24) ** 2 + ((y - 0.53) / 0.27) ** 2 <= 1;
           inside ||= polylineDistance(x, y, [[0.31, 0.48], [0.62, 0.53], [0.87, 0.67]]) <= 0.07;
+        } else if (family === "capybara") {
+          const body = ((x - 0.43) / 0.30) ** 2 + ((y - 0.54) / 0.22) ** 2 <= 1;
+          const head = ((x - 0.70) / 0.18) ** 2 + ((y - 0.46) / 0.17) ** 2 <= 1;
+          const muzzle = ((x - 0.86) / 0.105) ** 2 + ((y - 0.51) / 0.095) ** 2 <= 1;
+          const ear = ((x - 0.67) / 0.045) ** 2 + ((y - 0.28) / 0.065) ** 2 <= 1;
+          const rearLeg = polylineDistance(x, y, [[0.31, 0.68], [0.30, 0.84], [0.24, 0.84]]) <= 0.045;
+          const frontLeg = polylineDistance(x, y, [[0.62, 0.67], [0.64, 0.84], [0.71, 0.84]]) <= 0.045;
+          inside = body || head || muzzle || ear || rearLeg || frontLeg;
+        } else if (family === "trex") {
+          const body = ((x - 0.50) / 0.23) ** 2 + ((y - 0.50) / 0.25) ** 2 <= 1;
+          const neck = polylineDistance(x, y, [[0.59, 0.46], [0.69, 0.35]]) <= 0.10;
+          const head = ((x - 0.72) / 0.15) ** 2 + ((y - 0.31) / 0.13) ** 2 <= 1;
+          const snout = ((x - 0.84) / 0.11) ** 2 + ((y - 0.33) / 0.075) ** 2 <= 1;
+          const tailBase = polylineDistance(x, y, [[0.36, 0.47], [0.19, 0.39]]) <= 0.070;
+          const tailTip = polylineDistance(x, y, [[0.20, 0.39], [0.06, 0.28]]) <= 0.045;
+          const rearLeg = polylineDistance(x, y, [[0.43, 0.67], [0.40, 0.84], [0.31, 0.84]]) <= 0.048;
+          const frontLeg = polylineDistance(x, y, [[0.57, 0.68], [0.62, 0.84], [0.71, 0.84]]) <= 0.048;
+          const arm = polylineDistance(x, y, [[0.63, 0.43], [0.74, 0.51], [0.79, 0.48]]) <= 0.022;
+          inside = body || neck || head || snout || tailBase || tailTip || rearLeg || frontLeg || arm;
         }
         if (row === 0 || column === 0 || row === height - 1 || column === width - 1) inside = false;
         support[row * width + column] = inside ? 1 : 0;

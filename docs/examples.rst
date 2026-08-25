@@ -6,7 +6,7 @@ Browser demonstration
 
 An interactive browser-based demonstration is available at
 https://rafaelsdesouza.com.br/radialpaths/. Its browser-native JavaScript
-implementation provides seven synthetic supports, one to four supplied
+implementation provides nine synthetic supports, one to four supplied
 centres, draggable centre markers, pixel-level path inspection, and animated
 profile construction. The static tutorial remains readable without
 JavaScript.

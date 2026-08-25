@@ -64,6 +64,8 @@ shape = pn.widgets.Select(
         "Folded support": "folded",
         "Perforated support": "perforated",
         "Branched support": "branched",
+        "Capybara": "capybara",
+        "T-Rex": "trex",
     },
     width=240,
 )
@@ -198,6 +200,8 @@ CENTRE_CANDIDATES = {
     "folded": np.array([[24, 25], [74, 31], [49, 78], [24, 65]], dtype=int),
     "perforated": np.array([[50, 25], [50, 77], [22, 50], [78, 50]], dtype=int),
     "branched": np.array([[80, 50], [21, 23], [20, 79], [50, 50]], dtype=int),
+    "capybara": np.array([[54, 39], [47, 70], [53, 86], [72, 31]], dtype=int),
+    "trex": np.array([[50, 50], [32, 79], [40, 23], [70, 57]], dtype=int),
 }
 
 
