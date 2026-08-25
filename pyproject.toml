@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multiradial"
+dynamic = ["version"]
+description = "Centre-conditioned radial analysis for irregular and multi-centred structures"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+  {name = "Rafael S. de Souza"},
+]
+keywords = [
+  "astronomy",
+  "radial profiles",
+  "image analysis",
+  "geodesic distance",
+  "irregular morphology",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+  "numpy>=1.23",
+  "scipy>=1.9",
+  "scikit-image>=0.19",
+]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.6"]
+io = ["astropy>=5"]
+demo = ["matplotlib>=3.6", "panel>=1.2"]
+test = ["pytest>=7", "astropy>=5", "matplotlib>=3.6"]
+docs = [
+  "sphinx>=7",
+  "numpydoc>=1.6",
+  "furo>=2023.9.10",
+  "myst-parser>=2",
+  "nbsphinx>=0.9",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "multiradial._version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["multiradial"]
+branch = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

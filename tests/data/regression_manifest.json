@@ -1,0 +1,17 @@
+{
+  "description": "Non-convex two-centre support with an internal excluded hole",
+  "geometry_source": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/scripts/prepare_v06_benchmark.py",
+  "geometry_source_sha256": "68eb32687551b846cfbb66416ecea2898d71312335bc9e8504351e478949a423",
+  "profile_source": "radial_letter_v0_1_release/mnras_submission/scripts/make_jades_figure.R",
+  "profile_source_sha256": "e3234e986921d236dfd7735750a08923f152e74e95eb88674f6291513eb97358",
+  "generator": "tools/generate_regression_fixture.py",
+  "generator_sha256": "eaf4f9dd594bdb268cdb78a6cf846707e698b64dc3a3bc871e091ab0cfb6790d",
+  "fixture": "tests/data/reference_geometry_profile.npz",
+  "numpy_version": "1.25.2",
+  "scipy_version": "1.13.1",
+  "scikit_image_version": "0.24.0",
+  "graph": "MCP_Geometric, fully_connected=True, unit in-support costs",
+  "profile": "30 bins on [0,1], endpoint included, min 6, unweighted median/p16/p84",
+  "coordinate_storage": "rho_D and rho_X cast to float32 as in prepare_v06_benchmark.py:133-134",
+  "fixture_sha256": "0a80168288554a4bea0faae90eeb5300139c7f716787ab9dc6490ed08bc37ba5"
+}

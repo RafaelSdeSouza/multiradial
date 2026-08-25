@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive browser demonstration of MultiRadial centre-conditioned radial analysis.">
+  <link rel="canonical" href="__PAGES_URL__">
+  <link rel="stylesheet" href="./assets/site.css">
+  <title>MultiRadial — browser demonstration</title>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="MultiRadial home">MultiRadial</a>
+    <nav aria-label="Primary navigation">
+      <a href="./explorer/">Explorer</a>
+      <a href="./tutorial/">Tutorial</a>
+      <a href="__REPOSITORY_URL__">Source</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Browser implementation of MultiRadial</p>
+      <h1 id="page-title">MultiRadial</h1>
+      <p class="tagline">Centre-conditioned radial analysis for irregular and multi-centred astronomical structures.</p>
+      <p class="lead">
+        Explore how a connected support and supplied centres determine relative
+        centre–boundary depth <span class="math">ρ<sub>D</sub></span>, normalized
+        progression <span class="math">ρ<sub>X</sub></span>, and separate radial
+        profiles for each centre-associated region.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="./explorer/">Launch interactive explorer <span aria-hidden="true">→</span></a>
+        <a class="button secondary" href="./tutorial/">Interactive tutorial</a>
+      </div>
+    </section>
+
+    <section class="method" aria-labelledby="method-title">
+      <div class="section-heading">
+        <p class="eyebrow">Coordinate construction and profile estimation</p>
+        <h2 id="method-title">Construct the geometry independently of the measured tracer</h2>
+      </div>
+      <div class="method-grid">
+        <article>
+          <span class="step">01</span>
+          <h3>Define the accepted support and centres</h3>
+          <p>Shortest paths remain inside the accepted support. Each pixel is assigned to its nearest supplied centre.</p>
+        </article>
+        <article>
+          <span class="step">02</span>
+          <h3>Construct centre-conditioned coordinates</h3>
+          <p><span class="math">ρ<sub>D</sub></span> responds to nearby lateral boundaries; <span class="math">ρ<sub>X</sub></span> follows progression through each region.</p>
+        </article>
+        <article>
+          <span class="step">03</span>
+          <h3>Estimate registered tracer profiles</h3>
+          <p>Measure brightness or another registered scalar field without redefining radial position.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="coordinates" aria-labelledby="coordinates-title">
+      <div class="section-heading">
+        <p class="eyebrow">Coordinate definitions</p>
+        <h2 id="coordinates-title">Local boundary depth and normalized in-support progression</h2>
+      </div>
+      <div class="coordinate-grid">
+        <article class="coordinate-card">
+          <p class="symbol">ρ<sub>D,k</sub>(x)</p>
+          <p class="equation">d<sub>k</sub>(x) / [d<sub>k</sub>(x) + b(x)]</p>
+          <h3>Relative centre–boundary depth</h3>
+          <p>A local measure of position between a supplied centre and the nearest support boundary, including internal boundaries.</p>
+        </article>
+        <article class="coordinate-card">
+          <p class="symbol">ρ<sub>X,k</sub>(x)</p>
+          <p class="equation">d<sub>k</sub>(x) / L<sub>k</sub></p>
+          <h3>Normalized progression</h3>
+          <p>A longitudinal measure of distance away from a centre relative to the maximum distance in its associated region.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="resources" aria-labelledby="resources-title">
+      <div class="section-heading">
+        <p class="eyebrow">Software resources</p>
+        <h2 id="resources-title">Software and citation</h2>
+      </div>
+      <div class="resource-grid">
+        <a href="__REPOSITORY_URL__"><strong>Source code</strong><span>Repository, tests, and implementation provenance</span></a>
+        <a href="./CITATION.cff"><strong>Citation</strong><span>Machine-readable software citation metadata</span></a>
+        <a href="#installation"><strong>Installation</strong><span>Local Python installation from the repository</span></a>
+        <div id="paper" class="placeholder"><strong>Paper / preprint</strong><span>Stable bibliographic link to be added after release</span></div>
+      </div>
+      <div id="installation" class="install-block">
+        <div>
+          <h3>Run locally</h3>
+          <p>The public package has not yet been released to PyPI.</p>
+        </div>
+        <code>python -m pip install "multiradial[demo] @ git+__REPOSITORY_URL__.git"</code>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Runs locally in the browser using Pyodide. No analysis data are uploaded to a server.</p>
+    <p><a href="__REPOSITORY_URL__">MultiRadial source</a> · BSD 3-Clause</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+include README.md LICENSE CITATION.cff CHANGELOG.md CONTRIBUTING.md
+include jupyter_lite_config.json
+recursive-include src *.py
+recursive-include tests/data *.npz *.json
+recursive-include tests *.py
+recursive-include tools *.py
+recursive-include docs *.rst *.md *.py
+recursive-include examples *.ipynb
+recursive-include app *.py
