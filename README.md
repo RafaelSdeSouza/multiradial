@@ -1,13 +1,17 @@
-# MultiRadial
+# RadialPaths
 
 **Centre-conditioned radial analysis for irregular and multi-centred structures**
 
-MultiRadial constructs support-constrained radial geometry from a connected
+Developed by [Rafael S. de Souza](https://rafaelsdesouza.com.br/).
+
+RadialPaths constructs support-constrained radial geometry from a connected
 mask and supplied centres. Build the geometry once, then measure any registered
 scalar field—surface brightness, colour, velocity, age, metallicity, or another
 pixel-aligned tracer—without redefining radial position.
 
-> MultiRadial is an alpha research-software package. The name is provisional
+![Relative centre-boundary depth and normalized progression on one connected support](docs/_static/tutorials/your_own_image/07_final_geometry.png)
+
+> RadialPaths is an alpha research-software package. The name is provisional
 > pending the release gate in `docs/name_release_gate.md`; it has not been
 > published to PyPI.
 
@@ -20,7 +24,7 @@ python -m pip install --upgrade pip
 python -m pip install .
 ```
 
-For plotting and the Panel explorer:
+For plotting and the optional local Panel explorer:
 
 ```bash
 python -m pip install ".[demo]"
@@ -29,7 +33,7 @@ python -m pip install ".[demo]"
 ## Quick start
 
 ```python
-from multiradial import build_geometry, radial_profile
+from radialpaths import build_geometry, radial_profile
 
 geometry = build_geometry(
     support=mask,
@@ -61,26 +65,53 @@ The implementation intentionally reproduces the paper's validated 8-neighbour
 pixel graph. It does not silently substitute Euclidean distance or a continuous
 fast-marching solver.
 
+## From an image to the formal inputs
+
+Image preparation remains separate from the radial construction. The reference
+procedure returns its background estimate, smoothed image, provisional support,
+ranked centre candidates, selected centres, and final connected support.
+
+```python
+from radialpaths.preprocessing import prepare_image
+
+prepared = prepare_image(
+    image,
+    error=error_image,
+    psf_fwhm=3.74,  # pixels
+    n_centres=2,
+    preset="paper",
+)
+geometry = build_geometry(prepared.support, prepared.centres)
+```
+
+The local maxima are centre candidates, not inferred physical nuclei. Users
+with an external segmentation or independently measured centres can continue
+to call `build_geometry(my_mask, my_centres)` directly.
+
 ## Browser demonstration
 
-An interactive browser-based demonstration of MultiRadial is available at
-<https://rafaelsdesouza.com.br/multiradial/>. The demonstration runs locally
-in the browser using JupyterLite/Pyodide and requires no software installation.
-The stable landing page links to both the direct explorer and the tutorial;
-the GitHub repository remains the source-code record, while a future Zenodo
-DOI will provide the versioned archival citation.
+An interactive browser-based demonstration of RadialPaths is available at
+<https://rafaelsdesouza.com.br/multiradial/>. Its geometry and profile
+calculations are implemented in browser-native JavaScript, require no Python
+runtime in the page, and upload no image or measurement. The static tutorial
+remains readable without JavaScript and links to an executed notebook.
 
 The package has not been published to PyPI or Zenodo.
 
-## Run the explorer locally
+## Run the browser site locally
 
 ```bash
-panel serve app/explorer.py --show
+python -m pip install ".[docs,site]"
+sphinx-build -W --keep-going -b html docs docs/_build/html
+python tools/build_pages.py --output _site
+python -m http.server 8000 --directory _site
 ```
 
-The explorer switches among compact, folded, perforated, and branched supports,
-compares relative boundary depth with normalized progression, and demonstrates
-that the same immutable geometry can be applied to different registered tracers.
+The explorer provides seven support geometries, one to four supplied centres,
+draggable centre markers, simultaneous coordinate fields, pixel-level path and
+distance inspection, and an animated profile-construction diagnostic. The
+Python implementation remains authoritative; automated fixtures check the
+browser calculations against it.
 
 ## Documentation
 
@@ -89,7 +120,11 @@ that the same immutable geometry can be applied to different registered tracers.
 - `docs/implementation_audit.md` — relationship between the public API and the paper-reproduction fixtures
 - `docs/design_notes.md` — geometry reuse and interactive-explorer design
 - `docs/name_release_gate.md` — checks required before adopting the provisional package name
-- `examples/tutorial.ipynb` — executable browser tutorial
+- `docs/preprocessing.rst` — inspectable image-to-support preparation
+- `examples/01_quickstart.ipynb` — support, geometry, and a first profile
+- `examples/02_understanding_coordinates.ipynb` — coordinate interpretation with an internal boundary
+- `examples/03_your_own_image.ipynb` — executed image-to-profile tutorial
+- `examples/04_registered_tracers.ipynb` — geometry reuse across scalar fields
 
 ## Citation
 
@@ -99,4 +134,7 @@ software using `CITATION.cff` and include the software version. See
 
 ## License
 
-BSD 3-Clause. See `LICENSE`.
+Copyright (c) 2026, Rafael S. de Souza and contributors. Released under the
+BSD 3-Clause licence; see `LICENSE`.
+
+Project author: [Rafael S. de Souza](https://rafaelsdesouza.com.br/).

@@ -3,10 +3,189 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=../lite/lab/index.html?path=tutorial.ipynb">
-  <title>Opening the MultiRadial tutorial…</title>
+  <meta name="description" content="A complete image-to-profile tutorial for RadialPaths.">
+  <link rel="stylesheet" href="../assets/site.css">
+  <title>From an image to radial profiles — RadialPaths</title>
 </head>
 <body>
-  <p>Opening the <a href="../lite/lab/index.html?path=tutorial.ipynb">MultiRadial interactive tutorial</a>…</p>
+  <header class="site-header">
+    <a class="wordmark" href="../">RadialPaths</a>
+    <nav aria-label="Primary navigation">
+      <a href="../explorer/">Explorer</a>
+      <a aria-current="page" href="./">Tutorial</a>
+      <a href="../examples/">Examples</a>
+      <a href="__REPOSITORY_URL__">Source</a>
+    </nav>
+  </header>
+
+  <main class="tutorial-main">
+    <header class="tutorial-hero">
+      <p class="eyebrow">Tutorial</p>
+      <h1>From an image to a RadialPaths geometry</h1>
+      <p>
+        This deterministic example exposes every step between a scalar image
+        and the formal inputs required by <code>build_geometry</code>. Local
+        maxima are reviewed as centre candidates; they are not interpreted as
+        physical nuclei by the software.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="./03_your_own_image.ipynb" download>Download executed notebook</a>
+        <a class="button secondary" href="../explorer/">Open geometry explorer</a>
+      </div>
+    </header>
+
+    <aside class="contents" aria-label="Tutorial contents">
+      <strong>Contents</strong>
+      <a href="#input">1 · Input image</a>
+      <a href="#background">2 · Background and smoothing</a>
+      <a href="#support">3 · Provisional support</a>
+      <a href="#candidates">4 · Candidate centres</a>
+      <a href="#selection">5 · Supplied centres</a>
+      <a href="#final-support">6 · Final support</a>
+      <a href="#geometry">7 · Geometry</a>
+      <a href="#profiles">8 · Profiles</a>
+    </aside>
+
+    <article class="tutorial-article">
+      <section id="input">
+        <p class="eyebrow">Step 1</p>
+        <h2>Inspect the scalar image</h2>
+        <p>
+          The example contains two compact peaks, a faint bridge, an asymmetric
+          outer envelope, and a fixed realization of Gaussian background noise.
+          The image is two-dimensional and the PSF FWHM is specified in pixels.
+        </p>
+        <figure><img src="./assets/01_input_image.png" alt="Synthetic astronomical scalar image with two compact peaks and a bridge"><figcaption>The deterministic input image used by the executed notebook.</figcaption></figure>
+      </section>
+
+      <section id="background">
+        <p class="eyebrow">Step 2</p>
+        <h2>Estimate the background and smooth at the PSF scale</h2>
+        <p>
+          The paper preset starts with the outer 20 per cent border, estimates
+          the background with the median and 1.4826 MAD, and iteratively excludes
+          provisional source pixels. It reports the final background mask,
+          background level, scatter, and number of iterations.
+        </p>
+        <pre><code>background = estimate_background(
+    image, error=error, psf_fwhm=4.0, preset="paper"
+)
+support_stage = prepare_support(
+    image,
+    background=background.background,
+    sigma_bg=background.sigma_bg,
+    psf_fwhm=4.0,
+    preset="paper",
+)</code></pre>
+        <figure><img src="./assets/02_background_smoothing.png" alt="Final background pixels and smoothed background-subtracted image"><figcaption>The returned mask makes the background estimate inspectable.</figcaption></figure>
+      </section>
+
+      <section id="support">
+        <p class="eyebrow">Step 3</p>
+        <h2>Construct the provisional support</h2>
+        <p>
+          Pixels at or above the smoothed 1.5-sigma threshold are closed and
+          dilated with PSF-scaled circular footprints. Internal holes are not
+          filled. Connected-component selection is postponed until supplied
+          centres are known.
+        </p>
+        <figure><img src="./assets/03_provisional_support.png" alt="Input image with the provisional support outlined"><figcaption>The outline encloses every provisional connected component retained at this stage.</figcaption></figure>
+      </section>
+
+      <section id="candidates">
+        <p class="eyebrow">Step 4</p>
+        <h2>Review centre candidates</h2>
+        <p>
+          Local maxima above five background sigmas are collapsed by connected
+          plateau and ranked by smoothed intensity. The numbered overlay and
+          table persist the coordinates and ranking used for selection.
+        </p>
+        <figure><img src="./assets/04_candidate_centres.png" alt="Image with two numbered candidate-centre markers"><figcaption>Candidate numbers correspond to zero-based rows in the table.</figcaption></figure>
+        <table class="candidate-table">
+          <thead><tr><th>candidate</th><th>x</th><th>y</th><th>smoothed peak</th><th>significance</th></tr></thead>
+          <tbody><tr><td>0</td><td>50</td><td>57</td><td>1.00966</td><td>53.26</td></tr><tr><td>1</td><td>97</td><td>63</td><td>0.87037</td><td>45.89</td></tr></tbody>
+        </table>
+      </section>
+
+      <section id="selection">
+        <p class="eyebrow">Step 5</p>
+        <h2>Select the supplied centres</h2>
+        <p>
+          The example selects candidates <code>[0, 1]</code>. An analysis may
+          select other candidate indices or bypass candidate detection with
+          centres measured independently. Centre count is therefore an explicit
+          user decision.
+        </p>
+        <pre><code>selected = [0, 1]
+centres = select_centres(candidates, indices=selected)</code></pre>
+        <figure><img src="./assets/05_selected_centres.png" alt="Image with the two selected supplied centres"><figcaption>Selected centres retain the same numbers used during candidate review.</figcaption></figure>
+      </section>
+
+      <section id="final-support">
+        <p class="eyebrow">Step 6</p>
+        <h2>Retain the connected support containing every centre</h2>
+        <p>
+          The final support is the one 8-connected provisional component that
+          contains all supplied centres. If selected centres lie in different
+          components, the function raises an error; it does not join components
+          or silently discard a centre.
+        </p>
+        <pre><code>final = finalize_support(
+    support_stage.provisional_support, centres, connectivity=8
+)</code></pre>
+        <figure><img src="./assets/06_final_support.png" alt="Final connected support with two supplied centres"><figcaption>The mask and supplied centres now form the complete geometry input.</figcaption></figure>
+      </section>
+
+      <section id="geometry">
+        <p class="eyebrow">Step 7</p>
+        <h2>Build both radial coordinates</h2>
+        <p>
+          <code>build_geometry</code> receives only the final support and
+          supplied centres. It does not repeat image preparation or infer new
+          centres. The public result stores its distance and coordinate arrays
+          in float64 precision.
+        </p>
+        <pre><code>geometry = build_geometry(final.support, centres)
+
+rho_d = geometry.rho_D
+rho_x = geometry.rho_X</code></pre>
+        <figure><img src="./assets/07_final_geometry.png" alt="Relative centre-boundary depth and normalized progression coordinate maps"><figcaption>Relative centre–boundary depth (left) and normalized progression (right) are constructed on the same support.</figcaption></figure>
+      </section>
+
+      <section id="profiles">
+        <p class="eyebrow">Step 8</p>
+        <h2>Measure a registered tracer</h2>
+        <p>
+          Geometry is reusable. A registered intensity, colour, velocity, age,
+          or metallicity image can be summarized without changing the support,
+          centre assignment, or radial coordinates.
+        </p>
+        <pre><code>brightness = radial_profile(image, geometry, coordinate="rho_D")
+progression = radial_profile(image, geometry, coordinate="rho_X")</code></pre>
+        <div class="callout">
+          The default estimator uses 30 equal bins on [0, 1], includes ρ = 1 in
+          the final bin, omits bins with fewer than six pixels, and reports the
+          unweighted median in each centre-associated region.
+        </div>
+      </section>
+
+      <section id="more-notebooks">
+        <p class="eyebrow">Focused examples</p>
+        <h2>Continue with the executed notebooks</h2>
+        <p>Each notebook has one purpose and can be downloaded independently.</p>
+        <div class="resource-grid">
+          <a href="./01_quickstart.ipynb" download><strong>01 · Quick start</strong><span>Support, centres, geometry, and one profile</span></a>
+          <a href="./02_understanding_coordinates.ipynb" download><strong>02 · Understanding coordinates</strong><span>Internal boundaries and coordinate interpretation</span></a>
+          <a href="./03_your_own_image.ipynb" download><strong>03 · Your own image</strong><span>The complete preprocessing tutorial shown above</span></a>
+          <a href="./04_registered_tracers.ipynb" download><strong>04 · Registered tracers</strong><span>Reuse one geometry across several scalar fields</span></a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>This page is static and remains readable without JavaScript.</p>
+    <p><a href="__REPOSITORY_URL__">Source and tests</a> · BSD 3-Clause</p>
+  </footer>
 </body>
 </html>

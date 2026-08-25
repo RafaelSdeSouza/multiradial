@@ -1,7 +1,7 @@
 # Implementation-preservation audit
 
 The frozen scientific implementation remains under
-`radial_letter_v0_1_release/`; MultiRadial does not edit or call its publication
+`radial_letter_v0_1_release/`; RadialPaths does not edit or call its publication
 renderers. This audit records the exact behavior preserved by the package.
 
 ## Geometry provenance
@@ -28,14 +28,31 @@ give axial steps cost 1 and diagonal steps cost `sqrt(2)` through
 `MCP_Geometric`. Internal excluded holes are therefore barriers to traversal
 and also contribute boundary-source pixels through the same 3×3 adjacency.
 
-MultiRadial preserves these operations in `src/multiradial/geometry.py`. It
+RadialPaths preserves these operations in `src/radialpaths/geometry.py`. It
 adds input validation for a non-empty, connected, two-dimensional support and
 for supplied centres inside that support. Those checks reject inputs outside
 the paper's assumptions; they do not alter valid-case numerical results.
-The public geometry retains float64 distances and extents, while its normalized
-coordinate fields are cast to float32 exactly where the frozen observational
-preparation did so. This is necessary for exact downstream bin membership at
-coordinate values lying on bin edges.
+The frozen implementation computes distances and extents in float64. Its
+observational preparation then serializes the normalized coordinate fields as
+float32 before the R profile estimator reads them. That storage step is needed
+for exact reproduction of bin membership at coordinate values lying on bin
+edges; it is not part of the mathematical definition.
+
+## Public precision and paper reproduction
+
+The continuous mathematical definitions do not require float32 normalized
+coordinates. The public `build_geometry` therefore returns float64 distances,
+extents, `rho_D`, and `rho_X`. Exact distance ties remain assigned to the first
+supplied centre, as in the validated implementation. Reordering the centre
+list can consequently reassign tie pixels and can alter region-normalized
+`rho_X` values when the reassignment changes a region extent. `rho_D` and the
+minimum centre-distance field are unchanged by a pure centre permutation.
+
+The observational preparation for Figures 4--5 serialized `rho_D` and `rho_X`
+as float32 FITS arrays. That implementation detail is retained only by
+`radialpaths.reproduction.build_paper_geometry`. The frozen regression tests
+call that explicit compatibility path. They do not set the public numerical
+default.
 
 ## Profile provenance
 
@@ -53,8 +70,8 @@ For each centre-associated region independently:
 5. omit bins with fewer than six pixels;
 6. report the unweighted median and the 16th and 84th percentiles.
 
-MultiRadial preserves this estimator as the default in
-`src/multiradial/profiles.py`. It does not reproduce the later figure-only
+RadialPaths preserves this estimator as the default in
+`src/radialpaths/profiles.py`. It does not reproduce the later figure-only
 normalization by image peak or display floor, because those are plotting
 operations rather than the profile estimator.
 

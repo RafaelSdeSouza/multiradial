@@ -4,7 +4,8 @@ from pathlib import Path
 
 import numpy as np
 
-from multiradial import build_geometry, radial_profile
+from radialpaths import radial_profile
+from radialpaths.reproduction import build_paper_geometry
 
 
 DATA = Path(__file__).parent / "data"
@@ -27,7 +28,7 @@ class FrozenRegressionTests(unittest.TestCase):
 
     def test_geometry_matches_frozen_arrays(self):
         expected = self.fixture
-        geometry = build_geometry(expected["support"], expected["centres"])
+        geometry = build_paper_geometry(expected["support"], expected["centres"])
         np.testing.assert_array_equal(geometry.labels, expected["labels"])
         np.testing.assert_array_equal(geometry.boundary, expected["boundary"])
         for name in (
@@ -44,7 +45,7 @@ class FrozenRegressionTests(unittest.TestCase):
 
     def test_profiles_match_published_estimator(self):
         expected = self.fixture
-        geometry = build_geometry(expected["support"], expected["centres"])
+        geometry = build_paper_geometry(expected["support"], expected["centres"])
         for coordinate in ("rho_D", "rho_X"):
             profile = radial_profile(expected["image"], geometry, coordinate=coordinate)
             np.testing.assert_array_equal(profile.count, expected[f"{coordinate}_count"])
@@ -60,4 +61,3 @@ class FrozenRegressionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

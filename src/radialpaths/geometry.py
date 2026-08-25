@@ -57,8 +57,8 @@ class RadialGeometry:
     centre_distance: NDArray[np.float64]
     boundary: NDArray[np.bool_]
     boundary_distance: NDArray[np.float64]
-    rho_D: NDArray[np.float32]
-    rho_X: NDArray[np.float32]
+    rho_D: NDArray[np.float64]
+    rho_X: NDArray[np.float64]
     extents: NDArray[np.float64]
 
     @property
@@ -146,19 +146,18 @@ def _distance_from_sources(
     return distance
 
 
-def build_geometry(
+def _build_geometry(
     support: ArrayLike,
     centres: ArrayLike,
     *,
     centre_order: str = "yx",
     validate_connected: bool = True,
+    coordinate_dtype: np.dtype = np.dtype(np.float64),
 ) -> RadialGeometry:
     r"""Build support-constrained multi-centre radial geometry.
 
-    This function reproduces the validated paper implementation: an
-    8-neighbour pixel graph with unit in-support costs, first-centre tie
-    assignment, and a boundary made of support pixels touching excluded pixels
-    in a 3-by-3 neighborhood.
+    This internal constructor supports both the public numerical semantics and
+    the frozen paper-reproduction settings.
 
     Parameters
     ----------
@@ -247,13 +246,11 @@ def build_geometry(
             extent, np.finfo(float).eps
         )
 
-    # The frozen observational preparation serializes both normalized
-    # coordinates as float32 before they are binned in Figures 4--5
-    # (prepare_v06_benchmark.py:133--134). Preserve that end-to-end behavior:
-    # tiny float64-to-float32 changes can move pixels lying exactly on a bin
-    # edge even though the coordinate-field error is only about 3e-8.
-    rho_d = rho_d.astype(np.float32)
-    rho_x = rho_x.astype(np.float32)
+    dtype = np.dtype(coordinate_dtype)
+    if dtype not in {np.dtype(np.float32), np.dtype(np.float64)}:
+        raise ValueError("coordinate_dtype must be float32 or float64")
+    rho_d = rho_d.astype(dtype, copy=False)
+    rho_x = rho_x.astype(dtype, copy=False)
 
     return RadialGeometry(
         support=_readonly(mask),
@@ -266,6 +263,61 @@ def build_geometry(
         rho_D=_readonly(rho_d),
         rho_X=_readonly(rho_x),
         extents=_readonly(extents),
+    )
+
+
+def build_geometry(
+    support: ArrayLike,
+    centres: ArrayLike,
+    *,
+    centre_order: str = "yx",
+    validate_connected: bool = True,
+) -> RadialGeometry:
+    r"""Build support-constrained multi-centre radial geometry.
+
+    Parameters
+    ----------
+    support : array-like of bool, 2D
+        Accepted support :math:`\Omega`. ``True`` pixels are traversable and
+        ``False`` pixels—including internal holes—are excluded.
+    centres : array-like, shape (N, 2)
+        Supplied centre coordinates. Values are rounded with ``numpy.rint``.
+    centre_order : {``"yx"``, ``"xy"``}, optional
+        Coordinate ordering. The default is NumPy ``(row, column)`` order;
+        ``"xy"`` accepts astronomy/plotting-style ``(x, y)`` positions.
+    validate_connected : bool, optional
+        Require one 8-connected support component. The mathematical
+        construction assumes a connected support, so the default is ``True``.
+
+    Returns
+    -------
+    RadialGeometry
+        Reusable float64 geometry independent of any subsequently measured
+        tracer.
+
+    Notes
+    -----
+    Distances are calculated on an 8-neighbour pixel graph with unit
+    in-support costs. Exact distance ties are assigned to the first supplied
+    centre, matching the validated implementation. Centre order is therefore
+    part of the input whenever exact ties occur.
+
+    The paper's observational products serialized normalized coordinates as
+    float32. That reproduction-only storage setting is available from
+    :func:`radialpaths.reproduction.build_paper_geometry`; they are not the
+    numerical default of this public constructor.
+
+    The array should contain at least one layer of excluded pixels around its
+    outer support if contact with the array edge is intended to be a physical
+    boundary. This preserves the boundary expression without silently padding
+    the input.
+    """
+    return _build_geometry(
+        support,
+        centres,
+        centre_order=centre_order,
+        validate_connected=validate_connected,
+        coordinate_dtype=np.dtype(np.float64),
     )
 
 

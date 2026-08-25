@@ -8,6 +8,7 @@ import numpy as np
 
 from .geometry import RadialGeometry
 from .profiles import RadialProfile
+from .preprocessing import CentreCandidates
 
 
 CENTRE_COLOURS = ("#0072B2", "#D55E00", "#009E73", "#7B61A8")
@@ -18,7 +19,7 @@ def _pyplot():
         import matplotlib.pyplot as plt
     except ImportError as error:  # pragma: no cover - depends on optional environment
         raise ImportError(
-            "Plotting requires Matplotlib; install multiradial[plot] or multiradial[demo]"
+            "Plotting requires Matplotlib; install radialpaths[plot] or radialpaths[demo]"
         ) from error
     return plt
 
@@ -116,4 +117,58 @@ def plot_overview(
     return figure, axes
 
 
-__all__ = ["CENTRE_COLOURS", "plot_geometry", "plot_overview", "plot_profile"]
+def plot_centre_candidates(
+    image,
+    candidates: CentreCandidates,
+    *,
+    selected=None,
+    ax=None,
+):
+    """Plot numbered centre candidates for scientific review.
+
+    Selected and unselected markers are visually distinct. Candidate numbers
+    are zero-based and match :attr:`CentreCandidates.rank`.
+    """
+    plt = _pyplot()
+    if ax is None:
+        _, ax = plt.subplots(figsize=(5.2, 4.5))
+    values = np.asarray(image, dtype=float)
+    ax.imshow(values, origin="upper", cmap="gray")
+    selected_indices = set() if selected is None else {int(index) for index in selected}
+    for rank, (row, column) in enumerate(candidates.positions):
+        is_selected = rank in selected_indices
+        colour = CENTRE_COLOURS[rank % len(CENTRE_COLOURS)] if is_selected else "#6B737C"
+        ax.scatter(
+            column,
+            row,
+            s=92 if is_selected else 68,
+            facecolor=colour,
+            edgecolor="white",
+            linewidth=2.0,
+            zorder=4,
+        )
+        ax.text(
+            column + 2.2,
+            row - 2.2,
+            str(rank),
+            color="white",
+            fontsize=8.5,
+            weight="bold",
+            ha="left",
+            va="bottom",
+            zorder=5,
+            bbox={"facecolor": "#20252B", "edgecolor": "none", "pad": 1.4, "alpha": 0.86},
+        )
+    ax.set(xticks=[], yticks=[])
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    return ax
+
+
+__all__ = [
+    "CENTRE_COLOURS",
+    "plot_centre_candidates",
+    "plot_geometry",
+    "plot_overview",
+    "plot_profile",
+]

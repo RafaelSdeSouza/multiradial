@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from multiradial import build_geometry
+from radialpaths import build_geometry
 
 
 class InternalBoundaryTests(unittest.TestCase):

@@ -1,17 +1,17 @@
-MultiRadial
+RadialPaths
 ===========
 
 **Centre-conditioned radial analysis for irregular and multi-centred
 structures.**
 
-MultiRadial defines radial position from a connected support and supplied
+RadialPaths defines radial position from a connected support and supplied
 centres, then applies that geometry to any registered scalar field. It is aimed
 at astronomers working with irregular galaxies, mergers, tidal structures,
 clump complexes, resolved populations, and spatially resolved kinematics.
 
 .. code-block:: python
 
-   from multiradial import build_geometry, radial_profile
+   from radialpaths import build_geometry, radial_profile
 
    geometry = build_geometry(mask, centres)
    brightness = radial_profile(image, geometry, coordinate="rho_D")
@@ -27,6 +27,7 @@ clump complexes, resolved populations, and spatially resolved kinematics.
    :caption: Learn
 
    getting_started
+   preprocessing
    concepts
    examples
 
@@ -43,7 +44,7 @@ clump complexes, resolved populations, and spatially resolved kinematics.
 
    citing
    contributing
+   design_precedents
    design_notes
    name_release_gate
    release_checklist
-

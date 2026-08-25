@@ -1,4 +1,4 @@
-Citing MultiRadial
+Citing RadialPaths
 ==================
 
 Use the repository ``CITATION.cff`` file for software citation metadata. Until

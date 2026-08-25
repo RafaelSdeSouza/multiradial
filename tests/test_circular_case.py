@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from multiradial import build_geometry
+from radialpaths import build_geometry
 
 
 class CircularCaseTests(unittest.TestCase):
@@ -17,8 +17,11 @@ class CircularCaseTests(unittest.TestCase):
         self.assertAlmostEqual(np.nanmax(geometry.rho_D), 1)
         self.assertAlmostEqual(np.nanmax(geometry.rho_X), 1)
         self.assertTrue(np.all(geometry.boundary_distance[geometry.boundary] == 0))
+        np.testing.assert_allclose(
+            geometry.rho_X[support],
+            geometry.centre_distance[support] / np.nanmax(geometry.centre_distance[support]),
+        )
 
 
 if __name__ == "__main__":
     unittest.main()
-

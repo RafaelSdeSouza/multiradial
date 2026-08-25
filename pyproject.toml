@@ -3,7 +3,7 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "multiradial"
+name = "radialpaths"
 dynamic = ["version"]
 description = "Centre-conditioned radial analysis for irregular and multi-centred structures"
 readme = "README.md"
@@ -38,21 +38,27 @@ dependencies = [
   "scikit-image>=0.19",
 ]
 
+[project.urls]
+Homepage = "https://rafaelsdesouza.com.br/multiradial/"
+Repository = "https://github.com/RafaelSdeSouza/multiradial"
+Documentation = "https://rafaelsdesouza.com.br/multiradial/docs/"
+Author = "https://rafaelsdesouza.com.br/"
+
 [project.optional-dependencies]
 plot = ["matplotlib>=3.6"]
-io = ["astropy>=5"]
+io = ["astropy>=5", "Pillow>=9"]
 demo = ["matplotlib>=3.6", "panel>=1.2"]
-test = ["pytest>=7", "astropy>=5", "matplotlib>=3.6"]
+test = ["pytest>=7", "astropy>=5", "matplotlib>=3.6", "Pillow>=9"]
+site = ["nbconvert>=7"]
 docs = [
   "sphinx>=7",
   "numpydoc>=1.6",
   "furo>=2023.9.10",
   "myst-parser>=2",
-  "nbsphinx>=0.9",
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "multiradial._version.__version__"}
+version = {attr = "radialpaths._version.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -62,7 +68,7 @@ addopts = "-ra --strict-markers"
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source = ["multiradial"]
+source = ["radialpaths"]
 branch = true
 
 [tool.ruff]

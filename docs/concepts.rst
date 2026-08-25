@@ -5,7 +5,7 @@ Support-constrained distance
 ----------------------------
 
 Let :math:`\Omega` be the connected accepted support and :math:`c_k` a supplied
-centre. MultiRadial computes
+centre. RadialPaths computes
 
 .. math::
 

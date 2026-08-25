@@ -1,7 +1,7 @@
-"""Browser-ready Panel explorer for MultiRadial synthetic geometries.
+"""Browser-ready Panel explorer for RadialPaths synthetic geometries.
 
-Run locally with ``panel serve app/explorer.py --show`` or convert it to a
-serverless Pyodide application with ``tools/build_pages.py``.
+Run locally with ``panel serve app/explorer.py --show``. The public static
+site uses the separate browser-native implementation in ``web/assets``.
 """
 
 from functools import lru_cache
@@ -13,9 +13,9 @@ import param
 from matplotlib.colors import ListedColormap
 from matplotlib.patches import Rectangle
 
-from multiradial import build_geometry, radial_profile
-from multiradial.plotting import CENTRE_COLOURS, plot_geometry, plot_profile
-from multiradial.synthetic import make_scene
+from radialpaths import build_geometry, radial_profile
+from radialpaths.plotting import CENTRE_COLOURS, plot_geometry, plot_profile
+from radialpaths.synthetic import make_scene
 
 
 pn.extension(
@@ -379,7 +379,7 @@ def view(shape, centre_configuration, coordinate, tracer, wavefront):
 header = pn.pane.HTML(
     """
     <div class="mr-header">
-      <h1>MultiRadial interactive explorer</h1>
+      <h1>RadialPaths interactive explorer</h1>
       <p>Inspect how local boundary depth and normalized progression respond to the same accepted support.</p>
     </div>
     """
@@ -421,4 +421,4 @@ app = pn.Column(
     css_classes=["mr-shell"],
 )
 
-app.servable(title="MultiRadial interactive explorer")
+app.servable(title="RadialPaths interactive explorer")

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the MultiRadial regression fixture from the frozen implementation.
+"""Generate the RadialPaths regression fixture from the frozen implementation.
 
 This maintenance tool is not run during tests. It exists so every expected
 array has an explicit provenance path back to the paper implementation.

@@ -142,7 +142,7 @@ def radial_profile(
         Registered scalar field. Non-finite and masked values are excluded.
         An Astropy Quantity is accepted and its unit string is retained.
     geometry : RadialGeometry
-        Geometry returned by :func:`multiradial.build_geometry`.
+        Geometry returned by :func:`radialpaths.build_geometry`.
     coordinate : {``"rho_D"``, ``"rho_X"``}, optional
         Radial coordinate used for binning.
     bins : int or array-like, optional
@@ -187,10 +187,9 @@ def radial_profile(
     p84 = np.full(shape, np.nan)
     counts = np.zeros(shape, dtype=np.int64)
     rho = geometry.coordinate(coordinate)
-    # The validated observational coordinates are serialized as float32.
-    # Compare bin edges in that same dtype explicitly: NumPy 2 changed scalar
-    # promotion for float32-array/float64-scalar comparisons, which otherwise
-    # moves pixels lying exactly on an edge relative to the frozen estimator.
+    # Compare bin edges in the coordinate field's dtype. This is ordinarily
+    # float64. The explicit paper-reproduction geometry uses float32, matching
+    # the serialized JADES coordinate maps and their original bin assignment.
     comparison_edges = edges.astype(rho.dtype, copy=False)
     coordinate_name = "rho_D" if coordinate.lower() == "rho_d" else "rho_X"
 

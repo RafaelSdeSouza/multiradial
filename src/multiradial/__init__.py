@@ -1,19 +1,32 @@
-"""Centre-conditioned radial analysis on irregular supports.
+"""Compatibility namespace for the former :mod:`multiradial` import."""
 
-The top-level API deliberately separates construction of radial geometry from
-measurement of registered scalar fields.
-"""
+from __future__ import annotations
 
-from ._version import __version__
-from .geometry import RadialGeometry, build_geometry
-from .profiles import CentreProfile, RadialProfile, radial_profile
+import importlib
+import sys
+import warnings
 
-__all__ = [
-    "CentreProfile",
-    "RadialGeometry",
-    "RadialProfile",
-    "__version__",
-    "build_geometry",
-    "radial_profile",
-]
 
+warnings.warn(
+    "The 'multiradial' import has been renamed to 'radialpaths'; update imports "
+    "before the compatibility namespace is removed.",
+    FutureWarning,
+    stacklevel=2,
+)
+
+from radialpaths import *  # noqa: E402,F401,F403
+from radialpaths import __all__, __version__  # noqa: E402,F401
+
+
+for _name in (
+    "geometry",
+    "io",
+    "plotting",
+    "preprocessing",
+    "profiles",
+    "reproduction",
+    "synthetic",
+):
+    sys.modules[f"{__name__}.{_name}"] = importlib.import_module(f"radialpaths.{_name}")
+
+del _name

@@ -5,11 +5,11 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-project = "MultiRadial"
+project = "RadialPaths"
 author = "Rafael S. de Souza"
-copyright = "2026, MultiRadial developers"
+copyright = "2026, Rafael S. de Souza and contributors"
 
-from multiradial import __version__  # noqa: E402
+from radialpaths import __version__  # noqa: E402
 
 version = release = __version__
 extensions = [
@@ -20,12 +20,11 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_parser",
     "numpydoc",
-    "nbsphinx",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "furo"
-html_title = f"MultiRadial {version}"
+html_title = f"RadialPaths {version}"
 autodoc_typehints = "description"
 numpydoc_show_class_members = False
 intersphinx_mapping = {

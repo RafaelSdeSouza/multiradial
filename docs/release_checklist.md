@@ -1,6 +1,6 @@
 # Release checklist
 
-MultiRadial is not yet approved for a public release. A maintainer should
+RadialPaths is not yet approved for a public release. A maintainer should
 complete and record every item below before creating a public repository or
 uploading a distribution.
 
@@ -14,7 +14,7 @@ uploading a distribution.
 
 ## Name and identity gate
 
-- [ ] Repeat the official PyPI lookup for `multiradial`.
+- [ ] Repeat the official PyPI lookup for `radialpaths`.
 - [ ] Repeat GitHub account/organization and repository searches.
 - [ ] Complete an appropriate trademark review.
 - [ ] Reserve the final owner-scoped repository.
@@ -27,8 +27,9 @@ uploading a distribution.
 - [ ] Build wheel and source distribution in isolation.
 - [ ] Run `twine check dist/*`.
 - [ ] Build Sphinx with warnings treated as errors.
-- [ ] Build and manually exercise the Panel app.
-- [ ] Build and manually exercise the JupyterLite artifact in a browser.
+- [ ] Build and manually exercise the browser-native explorer on desktop and mobile.
+- [ ] Verify the static no-JavaScript tutorial and explorer fallback.
+- [ ] Re-run Python/JavaScript parity fixtures in CI.
 - [ ] Validate `CITATION.cff` and add the final paper DOI/reference when known.
 - [ ] Review license and third-party data/code provenance.
 
@@ -39,6 +40,5 @@ uploading a distribution.
 - [ ] Upload first to TestPyPI and install from TestPyPI in a clean environment.
 - [ ] Upload to PyPI only after the TestPyPI check passes.
 
-The current automation builds artifacts but contains no PyPI upload and no
-GitHub Pages deployment job.
-
+The current automation deploys the static browser site to GitHub Pages. It
+contains no PyPI, TestPyPI, or Zenodo publication step.

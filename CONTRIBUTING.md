@@ -1,6 +1,6 @@
 # Contributing
 
-MultiRadial welcomes focused issues and pull requests. Scientific changes need
+RadialPaths welcomes focused issues and pull requests. Scientific changes need
 an implementation note, regression coverage, and an explicit statement of
 whether existing numerical outputs change.
 

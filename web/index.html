@@ -3,36 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive browser demonstration of MultiRadial centre-conditioned radial analysis.">
+  <meta name="description" content="RadialPaths constructs centre-conditioned radial coordinates inside irregular astronomical supports.">
   <link rel="canonical" href="__PAGES_URL__">
   <link rel="stylesheet" href="./assets/site.css">
-  <title>MultiRadial — browser demonstration</title>
+  <title>RadialPaths — radial profiles in multi-centric irregular structures</title>
 </head>
 <body>
   <header class="site-header">
-    <a class="wordmark" href="./" aria-label="MultiRadial home">MultiRadial</a>
+    <a class="wordmark" href="./" aria-label="RadialPaths home">RadialPaths</a>
     <nav aria-label="Primary navigation">
       <a href="./explorer/">Explorer</a>
       <a href="./tutorial/">Tutorial</a>
+      <a href="./examples/">Examples</a>
       <a href="__REPOSITORY_URL__">Source</a>
     </nav>
   </header>
 
   <main>
     <section class="intro" aria-labelledby="page-title">
-      <p class="eyebrow">Browser implementation of MultiRadial</p>
-      <h1 id="page-title">MultiRadial</h1>
-      <p class="tagline">Centre-conditioned radial analysis for irregular and multi-centred astronomical structures.</p>
-      <p class="lead">
-        Explore how a connected support and supplied centres determine relative
-        centre–boundary depth <span class="math">ρ<sub>D</sub></span>, normalized
-        progression <span class="math">ρ<sub>X</sub></span>, and separate radial
-        profiles for each centre-associated region.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="./explorer/">Launch interactive explorer <span aria-hidden="true">→</span></a>
-        <a class="button secondary" href="./tutorial/">Interactive tutorial</a>
+      <div class="intro-copy">
+        <p class="eyebrow">Centre-conditioned radial analysis</p>
+        <h1 id="page-title">Radial profiles in multi-centric irregular structures</h1>
+        <p class="tagline">Construct the radial geometry once. Measure any registered tracer without redefining position.</p>
+        <p class="byline">Developed by <a href="https://rafaelsdesouza.com.br/">Rafael S. de Souza</a>.</p>
+        <p class="lead">
+          A connected support and supplied centres determine relative
+          centre–boundary depth <span class="math">ρ<sub>D</sub></span>, normalized
+          progression <span class="math">ρ<sub>X</sub></span>, and one profile for
+          each centre-associated region.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="./explorer/">Open explorer <span aria-hidden="true">→</span></a>
+          <a class="button secondary" href="./tutorial/">Start tutorial</a>
+        </div>
       </div>
+      <figure class="hero-visual">
+        <img src="./tutorial/assets/07_final_geometry.png" alt="Relative centre-boundary depth and normalized progression for one connected two-centre support">
+        <figcaption>
+          The same support and centre assignment produce
+          <span class="math">ρ<sub>D</sub></span> and
+          <span class="math">ρ<sub>X</sub></span>.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="method" aria-labelledby="method-title">
@@ -49,7 +61,7 @@
         <article>
           <span class="step">02</span>
           <h3>Construct centre-conditioned coordinates</h3>
-          <p><span class="math">ρ<sub>D</sub></span> responds to nearby lateral boundaries; <span class="math">ρ<sub>X</sub></span> follows progression through each region.</p>
+          <p><span class="math">ρ<sub>D</sub></span> includes the distance to the nearest boundary; <span class="math">ρ<sub>X</sub></span> normalizes centre distance by the assigned region’s full extent.</p>
         </article>
         <article>
           <span class="step">03</span>
@@ -87,23 +99,25 @@
       </div>
       <div class="resource-grid">
         <a href="__REPOSITORY_URL__"><strong>Source code</strong><span>Package implementation, tests, and documentation</span></a>
-        <a href="./CITATION.cff"><strong>Citation</strong><span>Machine-readable software citation metadata</span></a>
-        <a href="#installation"><strong>Installation</strong><span>Local Python installation from the repository</span></a>
+        <a href="./citation/"><strong>Citation</strong><span>Version guidance and machine-readable software metadata</span></a>
+        <a href="./examples/"><strong>Executed notebooks</strong><span>Four focused examples with saved outputs and downloads</span></a>
+        <a href="./docs/"><strong>Documentation</strong><span>Concepts, preprocessing, API, and implementation record</span></a>
+        <a href="#installation"><strong>Installation</strong><span>Install the current development version from this repository</span></a>
         <div id="paper" class="placeholder"><strong>Paper / preprint</strong><span>Stable bibliographic link to be added after release</span></div>
       </div>
       <div id="installation" class="install-block">
         <div>
           <h3>Run locally</h3>
-          <p>The public package has not yet been released to PyPI.</p>
+          <p>The package has not been published to PyPI.</p>
         </div>
-        <code>python -m pip install "multiradial[demo] @ git+__REPOSITORY_URL__.git"</code>
+        <code>python -m pip install "radialpaths[demo] @ git+__REPOSITORY_URL__.git"</code>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Runs locally in the browser using Pyodide. No analysis data are uploaded to a server.</p>
-    <p><a href="__REPOSITORY_URL__">MultiRadial source</a> · BSD 3-Clause</p>
+    <p>The explorer is browser-native and uploads no image or measurement.</p>
+    <p><a href="__REPOSITORY_URL__">Source and tests</a> · BSD 3-Clause</p>
   </footer>
 </body>
 </html>

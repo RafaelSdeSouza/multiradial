@@ -4,37 +4,44 @@ API reference
 Top-level API
 -------------
 
-.. autofunction:: multiradial.build_geometry
+.. autofunction:: radialpaths.build_geometry
 
-.. autofunction:: multiradial.radial_profile
+.. autofunction:: radialpaths.radial_profile
+
+Image preparation
+-----------------
+
+.. automodule:: radialpaths.preprocessing
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Result objects
 --------------
 
-.. autoclass:: multiradial.RadialGeometry
+.. autoclass:: radialpaths.RadialGeometry
    :members:
 
-.. autoclass:: multiradial.RadialProfile
+.. autoclass:: radialpaths.RadialProfile
    :members:
 
-.. autoclass:: multiradial.CentreProfile
+.. autoclass:: radialpaths.CentreProfile
    :members:
 
 Synthetic examples
 ------------------
 
-.. automodule:: multiradial.synthetic
+.. automodule:: radialpaths.synthetic
    :members:
 
 Plotting
 --------
 
-.. automodule:: multiradial.plotting
+.. automodule:: radialpaths.plotting
    :members:
 
 I/O
 ---
 
-.. automodule:: multiradial.io
+.. automodule:: radialpaths.io
    :members:
-

@@ -1,0 +1,30 @@
+{
+  "description": "Offline JADES paper-preprocessing regression fixture",
+  "systems": [
+    "GZMERGER09",
+    "GZMERGER29"
+  ],
+  "source_implementation": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/scripts/run_native_candidate_admission.py",
+  "source_implementation_sha256": "5f26009ca859c0d2aace9d42c9eecd9a48c0af63a6adce973f394a5f38fb6455",
+  "implementation_config": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/config/frozen_native_preparation_implementation.json",
+  "implementation_config_sha256": "a2e4daba333d5cba990a155796f897409f98d61266e1a6778f34503f66ef842c",
+  "sources": [
+    {
+      "system": "GZMERGER09",
+      "image": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/data/jades_dr2_f277w_gz_mergers/hlsp_jades_jwst_nircam_goods-s-deep_f277w_v2.0_drz__GZMERGER09_native.fits",
+      "image_sha256": "c6e51d797bdf4d4853a4dd1c9468991b7337e514ccde7d6514bfd4533cb5c725",
+      "support": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/results/gz_admission/supports/GZMERGER09_f277w_frozen_support.fits",
+      "support_sha256": "ebf62f21243c5368e57ca564f0fa64630487868ea800aa7adb6bec6a03cc3bf2"
+    },
+    {
+      "system": "GZMERGER29",
+      "image": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/data/jades_dr2_f277w_gz_mergers/hlsp_jades_jwst_nircam_goods-s-deep_f277w_v2.0_drz__GZMERGER29_native.fits",
+      "image_sha256": "6c484f1a97ead420ddd7c50930a54729b94b2423fa138849e241fd99b878e8ed",
+      "support": "radial_letter_v0_1_release/analysis/v06_survey_native_benchmark/results/gz_admission/supports/GZMERGER29_f277w_frozen_support.fits",
+      "support_sha256": "1913f33c464548d396de5a5f9354381824d19b8b4dc64daa4bc865a23dc46173"
+    }
+  ],
+  "generator": "tools/generate_preprocessing_fixture.py",
+  "fixture": "tests/data/jades_preprocessing_reference.npz",
+  "fixture_sha256": "92f06154b2257046a7f104fb5f85144560f1b7d6f506c2fc2f21fc016c526f2d"
+}

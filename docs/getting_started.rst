@@ -24,7 +24,7 @@ Centres default to NumPy ``(row, column)`` order.
 
 .. code-block:: python
 
-   from multiradial import build_geometry
+   from radialpaths import build_geometry
 
    geometry = build_geometry(
        support,
@@ -47,7 +47,7 @@ Measure registered tracers
 
 .. code-block:: python
 
-   from multiradial import radial_profile
+   from radialpaths import radial_profile
 
    brightness = radial_profile(image, geometry, coordinate="rho_D")
    colour = radial_profile(colour_map, geometry, coordinate="rho_X")
@@ -62,7 +62,7 @@ Plot the result
 
 .. code-block:: python
 
-   from multiradial.plotting import plot_overview
+   from radialpaths.plotting import plot_overview
 
    figure, axes = plot_overview(
        image, geometry, coordinate="rho_D", profile=brightness
@@ -75,7 +75,7 @@ The optional I/O helper reads FITS data without making Astropy a core import:
 
 .. code-block:: python
 
-   from multiradial.io import read_fits
+   from radialpaths.io import read_fits
 
    image = read_fits("science.fits", extension="SCI")
 

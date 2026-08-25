@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from multiradial import build_geometry, radial_profile
+from radialpaths import build_geometry, radial_profile
 
 
 class ProfileTests(unittest.TestCase):

@@ -1,14 +1,17 @@
 cff-version: 1.2.0
-message: "If you use MultiRadial, please cite the software and accompanying method paper."
-title: "MultiRadial: Centre-conditioned radial analysis for irregular and multi-centred structures"
+message: "If you use RadialPaths, please cite the software and accompanying method paper."
+title: "RadialPaths: Centre-conditioned radial analysis for irregular and multi-centred structures"
 type: software
 authors:
   - family-names: "de Souza"
     given-names: "Rafael S."
+    website: "https://rafaelsdesouza.com.br/"
 version: "0.1.0.dev0"
 license: "BSD-3-Clause"
+repository-code: "https://github.com/RafaelSdeSouza/multiradial"
+url: "https://rafaelsdesouza.com.br/multiradial/"
 abstract: >-
-  MultiRadial constructs support-constrained centre distances,
+  RadialPaths constructs support-constrained centre distances,
   centre-associated regions, relative centre-boundary depth, normalized
   progression, and centre-conditioned radial profiles for irregular and
   multi-centred structures.

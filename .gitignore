@@ -10,3 +10,4 @@ dist/
 .venv/
 docs/_build/
 site/
+_site/

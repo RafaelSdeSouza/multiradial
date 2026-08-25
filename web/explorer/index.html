@@ -1,0 +1,176 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Inspect support-constrained radial coordinates in seven synthetic geometries.">
+  <link rel="stylesheet" href="../assets/site.css">
+  <script>
+    document.documentElement.classList.replace("no-js", "js");
+    window.addEventListener("error", function () {
+      var message = document.getElementById("runtime-fallback");
+      if (message) message.hidden = false;
+    });
+  </script>
+  <title>Geometry explorer — RadialPaths</title>
+</head>
+<body class="explorer-page">
+  <header class="site-header">
+    <a class="wordmark" href="../">RadialPaths</a>
+    <nav aria-label="Primary navigation">
+      <a aria-current="page" href="./">Explorer</a>
+      <a href="../tutorial/">Tutorial</a>
+      <a href="../examples/">Examples</a>
+      <a href="__REPOSITORY_URL__">Source</a>
+    </nav>
+  </header>
+
+  <main class="explorer-main">
+    <section class="explorer-intro">
+      <div>
+        <p class="eyebrow">Interactive geometry</p>
+        <h1>Trace distance through an irregular support</h1>
+      </div>
+      <p>
+        Choose a support and supply up to four centres. Drag a centre or select
+        an in-support pixel to see its assigned region, shortest path, distance
+        to the centre, distance to the nearest boundary, and both coordinates.
+      </p>
+    </section>
+
+    <noscript>
+      <section class="no-script" aria-labelledby="static-explanation">
+        <div>
+          <p class="eyebrow">Static explanation</p>
+          <h2 id="static-explanation">The explorer requires JavaScript for interaction</h2>
+          <p>The tutorial remains available without JavaScript and shows every image-preparation and geometry-construction stage.</p>
+          <a class="button secondary" href="../tutorial/">Read the static tutorial</a>
+        </div>
+        <img src="../tutorial/assets/07_final_geometry.png" alt="Side-by-side relative boundary-depth and normalized-progression maps">
+      </section>
+    </noscript>
+
+    <section id="runtime-fallback" class="runtime-fallback" hidden>
+      <strong>The interactive calculation did not start.</strong>
+      The <a href="../tutorial/">static tutorial</a> contains the complete
+      scientific explanation and requires no browser calculation.
+    </section>
+
+    <section class="explorer-shell js-only" aria-label="Radial coordinate explorer">
+      <aside class="control-rail" aria-labelledby="control-title">
+        <div>
+          <p class="eyebrow">Inputs</p>
+          <h2 id="control-title">Geometry and measurement</h2>
+        </div>
+
+        <label for="support-family">Support</label>
+        <select id="support-family">
+          <option value="circle">Circular control</option>
+          <option value="compact">Compact irregular</option>
+          <option value="elongated" selected>Elongated tail</option>
+          <option value="folded">Folded support</option>
+          <option value="branched">Branched support</option>
+          <option value="perforated">Perforated support</option>
+          <option value="merger">Merger with bridge and tail</option>
+        </select>
+
+        <div id="tail-width-control" class="conditional-control">
+          <div class="range-heading">
+            <label for="tail-width">Elongated-tail width</label>
+            <output id="tail-width-value" for="tail-width">100%</output>
+          </div>
+          <input id="tail-width" type="range" min="55" max="145" value="100" step="5">
+          <p class="control-note">Only changes the lateral width; the prescribed centreline remains fixed.</p>
+        </div>
+
+        <fieldset>
+          <legend>Supplied centres</legend>
+          <div id="centre-count" class="segmented" aria-label="Number of supplied centres">
+            <button type="button" data-count="1" aria-pressed="false">1</button>
+            <button type="button" data-count="2" aria-pressed="true">2</button>
+            <button type="button" data-count="3" aria-pressed="false">3</button>
+            <button type="button" data-count="4" aria-pressed="false">4</button>
+          </div>
+          <p class="control-note">Drag the coloured markers inside either map.</p>
+        </fieldset>
+
+        <label for="resolution">Grid resolution</label>
+        <select id="resolution">
+          <option value="56">56 rows</option>
+          <option value="80" selected>80 rows</option>
+          <option value="112">112 rows</option>
+        </select>
+
+        <label for="tracer">Registered tracer</label>
+        <select id="tracer">
+          <option value="brightness" selected>Surface brightness</option>
+          <option value="colour">Colour-like gradient</option>
+          <option value="velocity">Velocity-like field</option>
+        </select>
+
+        <div class="wave-control">
+          <div class="range-heading">
+            <label for="wave-progress">Propagation progress</label>
+            <output id="progress-value" for="wave-progress">100%</output>
+          </div>
+          <input id="wave-progress" type="range" min="0" max="100" value="100" step="1">
+          <button id="animate-wavefront" class="button primary" type="button">Animate propagation</button>
+        </div>
+      </aside>
+
+      <div class="explorer-workspace">
+        <div class="map-grid">
+          <article class="field-card">
+            <header>
+              <div><span class="coordinate-token rho-d">ρ<sub>D</sub></span><h2>Relative centre–boundary depth</h2></div>
+              <p>Position between the assigned centre and nearest support boundary.</p>
+            </header>
+            <div class="field-stage">
+              <canvas id="rho-d-canvas" aria-label="Relative centre-boundary depth field"></canvas>
+              <svg id="rho-d-overlay" aria-label="Support boundary, contours, supplied centres, and selected shortest path"></svg>
+            </div>
+          </article>
+
+          <article class="field-card">
+            <header>
+              <div><span class="coordinate-token rho-x">ρ<sub>X</sub></span><h2>Normalized progression</h2></div>
+              <p>Distance from the assigned centre relative to that region’s maximum distance.</p>
+            </header>
+            <div class="field-stage">
+              <canvas id="rho-x-canvas" aria-label="Normalized progression field"></canvas>
+              <svg id="rho-x-overlay" aria-label="Support boundary, contours, and supplied centres"></svg>
+            </div>
+          </article>
+        </div>
+
+        <div class="diagnostic-grid">
+          <article class="inspection-card">
+            <p class="eyebrow">Selected pixel</p>
+            <h2>Path and coordinate values</h2>
+            <div id="inspection-values" class="inspection-values" aria-live="polite">
+              <span>Select an in-support pixel to inspect its assigned centre and distances.</span>
+            </div>
+            <p class="inspection-note">The white path is the shortest 8-neighbour route that remains inside the accepted support.</p>
+          </article>
+
+          <article class="profile-card">
+            <div>
+              <p class="eyebrow">Profile construction</p>
+              <h2>Median tracer profile as propagation advances</h2>
+            </div>
+            <svg id="profile-chart" role="img" aria-label="Median tracer profiles by normalized progression"></svg>
+            <div class="profile-key"><span><i class="current-line"></i>reached pixels</span><span><i class="final-line"></i>complete profile</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>All calculations run locally in this page; no image or measurement is uploaded.</p>
+    <p><a href="__REPOSITORY_URL__">Source and tests</a> · BSD 3-Clause</p>
+  </footer>
+  <script src="../assets/geometry.js"></script>
+  <script src="../assets/explorer.js"></script>
+</body>
+</html>

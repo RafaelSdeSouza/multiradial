@@ -16,5 +16,5 @@ jobs:
       - run: sphinx-build -W -b html docs docs/_build/html
       - uses: actions/upload-artifact@v7
         with:
-          name: multiradial-documentation
+          name: radialpaths-documentation
           path: docs/_build/html
